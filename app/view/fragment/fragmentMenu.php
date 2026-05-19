@@ -6,7 +6,7 @@ $role     = $_SESSION['role'] ?? '';
 $solde    = $_SESSION['solde'] ?? 0;
 ?>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-primary fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="router.php?controller=accueil&action=home">Antoine Schaeffer et Antonin Lopez</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
