@@ -6,14 +6,14 @@ $role     = $_SESSION['role'] ?? '';
 $solde    = $_SESSION['solde'] ?? 0;
 ?>
 
-<nav class="navbar navbar-expand-lg bg-primary fixed-top">
+<nav class="navbar navbar-expand-lg bg-primary sticky-top py-2">
     <div class="container-fluid">
         <a class="navbar-brand" href="router.php?controller=accueil&action=home">Antoine Schaeffer et Antonin Lopez</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto">
 
                 <?php if ($login_id > 0): ?>
                     <li class="nav-item">
