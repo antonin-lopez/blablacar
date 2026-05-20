@@ -1,4 +1,5 @@
 <?php
+
 $user_id = $_SESSION['user_id'] ?? -1;
 $nom     = $_SESSION['nom'] ?? '';
 $prenom  = $_SESSION['prenom'] ?? '';
@@ -16,7 +17,7 @@ $solde   = $_SESSION['solde'] ?? 0;
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
-                <?php if ($user_id > 0): ?>
+                <?php if ($user_id >= 0): ?>
                     <?php if ($role === 'administrateur'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Administrateur</a>
