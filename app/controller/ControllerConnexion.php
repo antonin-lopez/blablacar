@@ -1,9 +1,8 @@
 <?php
-require_once 'app/model/ModelUtilisateur.php';
+require_once ROOT . '/app/model/ModelUtilisateur.php';
 
 class ControllerConnexion
 {
-
     public static function login($args = [])
     {
         $erreur = '';
@@ -12,34 +11,30 @@ class ControllerConnexion
             $login = $_POST['login'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            if (!empty($login) && !empty($password)) {
-                $user = ModelUtilisateur::verifierCredentials($login, $password);
+            $user = ModelUtilisateur::verifierCredentials($login, $password);
 
-                if ($user) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['nom'] = $user['nom'];
-                    $_SESSION['prenom'] = $user['prenom'];
-                    $_SESSION['role'] = $user['role'];
-                    $_SESSION['solde'] = $user['solde'];
+            if ($user) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['nom'] = $user['nom'];
+                $_SESSION['prenom'] = $user['prenom'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['solde'] = $user['solde'];
 
-                    header('Location: index.php?controller=accueil&action=home');
-                    exit();
-                } else {
-                    $erreur = 'Identifiant ou mot de passe incorrect.';
-                }
+                header('Location: index.php?controller=accueil&action=home');
+                exit();
             } else {
-                $erreur = 'Veuillez remplir tous les champs.';
+                $erreur = 'Identifiant ou mot de passe incorrect.';
             }
         }
 
-        require 'app/view/connexion/viewLogin.php';
+        require ROOT . '/app/view/connexion/viewLogin.php';
     }
 
     public static function logout($args = [])
     {
         session_destroy();
 
-        header('Location: index.php?controller=connexion&action=login');
+        header('Location: index.php?controller=accueil&action=home');
         exit();
     }
 }
