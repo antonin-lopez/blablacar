@@ -6,7 +6,7 @@ $role    = $_SESSION['role'] ?? '';
 $solde   = $_SESSION['solde'] ?? 0;
 ?>
 
-<nav class="navbar navbar-expand-lg py-3 bg-primary sticky-top" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg py-3 bg-primary sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php?controller=accueil&action=home">Antoine Schaeffer et Antonin Lopez</a>
 

@@ -1,5 +1,4 @@
 <?php
-// app/model/Model.php
 
 class Model
 {
@@ -10,7 +9,7 @@ class Model
     public static function getInstance()
     {
         if (self::$_instance === null) {
-            require_once __DIR__ . '/../config/config.php';
+            require_once ROOT . '/app/config/config.php';
 
             $options = array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
