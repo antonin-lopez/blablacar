@@ -19,7 +19,7 @@ class Model
             try {
                 self::$_instance = new PDO($dsn, $username, $password, $options);
             } catch (PDOException $e) {
-                die("Erreur de connexion à la base de données : " . $e->getMessage());
+                throw new Exception($e->getMessage());
             }
         }
 
