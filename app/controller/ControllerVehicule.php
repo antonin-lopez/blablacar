@@ -11,7 +11,6 @@ class ControllerVehicule
         }
 
         $userId = $_SESSION['user_id'];
-
         $vehicules = ModelVehicule::readByProprietaireId($userId);
 
         require_once ROOT . '/app/view/vehicule/viewAll.php';

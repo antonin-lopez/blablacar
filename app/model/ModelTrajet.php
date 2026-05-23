@@ -3,7 +3,7 @@ require_once ROOT . '/app/model/Model.php';
 
 class ModelTrajet
 {
-    public static function readByConducteurId($conducteur_id)
+    public static function readByConducteurId($conducteurId)
     {
         $db = Model::getInstance();
 
@@ -14,8 +14,28 @@ class ModelTrajet
                 WHERE t.conducteur_id = :conducteur_id";
 
         $stmt = $db->prepare($sql);
-        $stmt->execute(['conducteur_id' => $conducteur_id]);
+        $stmt->execute(['conducteur_id' => $conducteurId]);
 
         return $stmt->fetchAll();
+    }
+
+
+    public static function insert($villeDepart, $villeArrivee, $conducteurId, $vehiculeId, $prix, $dateDepart, $heureDepart)
+    {
+        $db = Model::getInstance();
+
+        $sql = "INSERT INTO trajet (id, ville_depart, ville_arrivee, conducteur_id, vehicule_id, prix, date_depart, heure_depart, statut)
+                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM trajet t2), :ville_depart, :ville_arrivee, :conducteur_id, :vehicule_id, :prix, :date_depart, :heure_depart, 'actif')";
+
+        $stmt = $db->prepare($sql);
+        return $stmt->execute([
+            'ville_depart'   => $villeDepart,
+            'ville_arrivee'  => $villeArrivee,
+            'conducteur_id'  => $conducteurId,
+            'vehicule_id'    => $vehiculeId,
+            'prix'           => $prix,
+            'date_depart'    => $dateDepart,
+            'heure_depart'   => $heureDepart
+        ]);
     }
 }

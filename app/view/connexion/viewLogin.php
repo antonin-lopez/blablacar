@@ -12,17 +12,20 @@
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="">
-            <div class="mb-3">
+        <form method="POST" action="" class="row g-3">
+            <div class="col-md-6">
                 <label for="login" class="form-label">Identifiant</label>
                 <input type="text" class="form-control" id="login" name="login" required>
             </div>
-            <div class="mb-3">
+
+            <div class="col-md-6">
                 <label for="password" class="form-label">Mot de passe</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Connexion</button>
+            <div class="col-md-12 mt-4 d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary">Connexion</button>
+            </div>
         </form>
 
     </main>
