@@ -1,6 +1,6 @@
 <?php
 
-$user_id = $_SESSION['user_id'] ?? -1;
+$userId = $_SESSION['user_id'] ?? -1;
 $nom     = $_SESSION['nom'] ?? '';
 $prenom  = $_SESSION['prenom'] ?? '';
 $role    = $_SESSION['role'] ?? '';
@@ -17,7 +17,7 @@ $solde   = $_SESSION['solde'] ?? 0;
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
-                <?php if ($user_id >= 0): ?>
+                <?php if ($userId >= 0): ?>
                     <?php if ($role === 'administrateur'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Administrateur</a>
@@ -45,8 +45,8 @@ $solde   = $_SESSION['solde'] ?? 0;
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="index.php?controller=trajet&action=readMyTrajets">Tous mes trajets</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=trajet&action=create">Ajout d'un trajet</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=trajet&action=readMyTrajets">Mes trajets</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=trajet&action=create">Ajouter un trajet</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -83,7 +83,7 @@ $solde   = $_SESSION['solde'] ?? 0;
             </ul>
 
             <ul class="navbar-nav">
-                <?php if ($user_id === -1): ?>
+                <?php if ($userId === -1): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?controller=connexion&action=login">Se connecter</a>
                     </li>
@@ -91,7 +91,7 @@ $solde   = $_SESSION['solde'] ?? 0;
                     <li class="nav-item me-3 d-flex align-items-center">
                         <span class="navbar-text fw-medium">
                             <?= "$prenom $nom" ?>
-                            <span class="badge bg-body text-body ms-2">
+                            <span class="badge bg-body text-body ms-1 py-2">
                                 <?= $solde ?> €
                             </span>
                         </span>

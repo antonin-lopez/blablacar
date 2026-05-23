@@ -2,7 +2,20 @@
 require_once ROOT . '/app/model/ModelVehicule.php';
 require_once ROOT . '/app/model/ModelUtilisateur.php';
 
-class ControllerVehicule {
+class ControllerVehicule
+{
+    public static function readMyVehicles($args)
+    {
+        if ($_SESSION['role'] !== 'conducteur') {
+            header('Location: index.php?controller=accueil&action=home');
+            exit();
+        }
+
+        $userId = $_SESSION['user_id'];
+        $vehicules = ModelVehicule::readByProprietaireId($userId);
+
+        require_once ROOT . '/app/view/vehicule/viewAll.php';
+    }
     
     public static function readAll($params = []) {
         $results = ModelVehicule::getAll();

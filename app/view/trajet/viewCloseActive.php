@@ -4,17 +4,21 @@
     <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
-        <h1>Passagers de mes trajets</h1>
+        <h1>Clôturer un trajet</h1>
 
         <?php if (empty($trajets)): ?>
             <div class="alert alert-warning">
-                Vous n'avez aucun trajet actif pour le moment.
+                Vous n'avez aucun trajet actif à clôturer.
             </div>
 
         <?php else: ?>
+            <div class="alert alert-info">
+                La clôture d'un trajet le rendra indisponible pour de nouvelles réservations.
+            </div>
+
             <form method="POST" action="" class="row g-3">
                 <div class="col-md-12">
-                    <label for="trajet_id" class="form-label">Vos trajets actifs</label>
+                    <label for="trajet_id" class="form-label">Choisissez le trajet à clôturer</label>
                     <select class="form-select" id="trajet_id" name="trajet_id" required>
                         <option value="" disabled selected>Choisissez un trajet</option>
                         <?php foreach ($trajets ?? [] as $trajet): ?>
@@ -26,7 +30,9 @@
                 </div>
 
                 <div class="col-md-12 mt-4 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">Voir les passagers</button>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir clôturer ce trajet ? Cette action est irréversible.');">
+                        Clôturer le trajet
+                    </button>
                 </div>
             </form>
         <?php endif; ?>
