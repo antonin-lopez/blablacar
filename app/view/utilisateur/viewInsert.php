@@ -1,34 +1,46 @@
-<?php 
-if (!isset($userRole)) {
-    $userRole = '';
-}
-?>
-
 <?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
     <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
 
-    <main class="container my-5">
-        <h1>Ajout d'un utilisateur</h1><br>
-        <form role="form" method="get" action="router.php">
-            <input type="hidden" name="controller" value="utilisateur">
-            <input type="hidden" name="action" value="utilisateurCreated">
-            <div class="mb-3">
-                <label for="nom" class="form-label w-auto">Nom :</label>
-                <input type="text" class="form-control" name="nom" id="nom" style="width: 300px;" value="SCHAEFFER" required>
+    <main class="container mt-5 d-flex flex-column gap-4">
+        <h1>Ajouter un <?= htmlspecialchars($roleNouvelUtilisateur ?? 'passager') ?></h1>
+
+        <?php if (!empty($errors)): ?>
+            <div class='alert alert-danger'>
+                <?= htmlspecialchars($errors) ?>
             </div>
-            <div class="mb-3">
-                <label for="prenom" class="form-label w-auto">Prénom :</label>
-                <input type="text" class="form-control" name="prenom" id="prenom" style="width: 300px;" value="Antoine" required>
+        <?php endif; ?>
+
+        <form method="POST" action="index.php?controller=utilisateur&action=create" class="row g-3">
+
+            <div class="col-md-6">
+                <label for="nom_nouvel_utilisateur" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="nom_nouvel_utilisateur" name="nom_nouvel_utilisateur" required>
             </div>
-            <input type="hidden" name="password" value="secret">
-            <input type="hidden" name="userRole" value="<?php echo htmlspecialchars($userRole); ?>">
-            <div class="mb-3">
-                <label for="solde" class="form-label w-auto">Solde :</label>
-                <input type="number" class="form-control" name="solde" id="solde" style="width: 300px;" value="100" required>
+
+            <div class="col-md-6">
+                <label for="prenom_nouvel_utilisateur" class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="prenom_nouvel_utilisateur" name="prenom_nouvel_utilisateur" required>
             </div>
-            <button type="submit" class="btn btn-primary">Créer <?php echo htmlspecialchars($userRole); ?></button>
+
+            <input type="hidden" name="mdp_nouvel_utilisateur" value="secret">
+            <input type="hidden" name="role_nouvel_utilisateur" value="<?= htmlspecialchars($roleNouvelUtilisateur ?? 'passager') ?>">
+
+            <div class="col-md-12">
+                <label for="solde_nouvel_utilisateur" class="form-label">Solde initial</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="solde_nouvel_utilisateur" id="solde_nouvel_utilisateur" min="0" step="1" placeholder="0.00" required>
+                    <span class="input-group-text">€</span>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-4 d-flex justify-content-end gap-2">
+                <button type="reset" class="btn btn-outline-secondary">Réinitialiser</button>
+                <button type="submit" class="btn btn-primary">
+                    Créer le <?= htmlspecialchars($roleNouvelUtilisateur ?? 'passager') ?>
+                </button>
+            </div>
         </form>
     </main>
 

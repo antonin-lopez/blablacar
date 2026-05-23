@@ -6,9 +6,9 @@
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1>Ajouter un trajet</h1>
 
-        <?php if (!empty($erreur)): ?>
+        <?php if (!empty($errors)): ?>
             <div class='alert alert-danger'>
-                <?php echo $erreur; ?>
+                <?php echo $errors; ?>
             </div>
         <?php endif; ?>
 
@@ -34,8 +34,8 @@
             </div>
 
             <div class="col-md-12">
-                <label for="vehicule_id" class="form-label">Véhicule</label>
-                <select class="form-select" id="vehicule_id" name="vehicule_id" required>
+                <label for="id_vehicule" class="form-label">Véhicule</label>
+                <select class="form-select" id="id_vehicule" name="id_vehicule" required>
                     <option value="" disabled selected>Choisissez un véhicule</option>
                     <?php foreach ($vehicules ?? [] as $vehicule): ?>
                         <option value="<?= $vehicule['id'] ?>">

@@ -3,7 +3,7 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
 
-    <main class="container my-5">
+    <main class="container mt-5 d-flex flex-column gap-4">
         <h1 class="mb-4">Connexion</h1>
 
         <?php if (!empty($erreur)): ?>
@@ -14,13 +14,13 @@
 
         <form method="POST" action="" class="row g-3">
             <div class="col-md-6">
-                <label for="login" class="form-label">Identifiant</label>
-                <input type="text" class="form-control" id="login" name="login" required>
+                <label for="login_utilisateur" class="form-label">Identifiant</label>
+                <input type="text" class="form-control" id="login_utilisateur" name="login_utilisateur" required>
             </div>
 
             <div class="col-md-6">
-                <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <label for="password_utilisateur" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="password_utilisateur" name="password_utilisateur" required>
             </div>
 
             <div class="col-md-12 mt-4 d-flex justify-content-end gap-2">

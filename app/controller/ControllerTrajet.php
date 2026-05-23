@@ -7,13 +7,13 @@ class ControllerTrajet
 {
     public static function readMyTrajets($args)
     {
-        if ($_SESSION['role'] !== 'conducteur') {
+        if ($_SESSION['role_utilisateur'] !== 'conducteur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
-        $trajets = ModelTrajet::readByConducteurId($userId);
+        $idUtilisateur = $_SESSION['id_utilisateur'];
+        $trajets = ModelTrajet::readByConducteurId($idUtilisateur);
 
         require_once ROOT . '/app/view/trajet/viewAll.php';
     }
@@ -21,18 +21,18 @@ class ControllerTrajet
 
     public static function create($args)
     {
-        if ($_SESSION['role'] !== 'conducteur') {
+        if ($_SESSION['role_utilisateur'] !== 'conducteur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
 
         $errors = '';
-        $userId = $_SESSION['user_id'];
+        $idUtilisateur = $_SESSION['id_utilisateur'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $villeDepart  = $_POST['ville_depart'] ?? '';
             $villeArrivee = $_POST['ville_arrivee'] ?? '';
-            $vehiculeId   = $_POST['vehicule_id'] ?? '';
+            $idVehicule   = $_POST['id_vehicule'] ?? '';
             $prix         = $_POST['prix'] ?? '';
             $dateDepart   = $_POST['date_depart'] ?? '';
             $heureDepart  = $_POST['heure_depart'] ?? '';
@@ -40,7 +40,7 @@ class ControllerTrajet
             if ($villeDepart === $villeArrivee) {
                 $errors = "La ville de départ doit être différente de la ville d'arrivée.";
             } else {
-                $result = ModelTrajet::insert($villeDepart, $villeArrivee, $userId, $vehiculeId, $prix, $dateDepart, $heureDepart);
+                $result = ModelTrajet::insert($villeDepart, $villeArrivee, $idUtilisateur, $idVehicule, $prix, $dateDepart, $heureDepart);
 
                 if ($result) {
                     header('Location: index.php?controller=trajet&action=readMyTrajets');
@@ -52,7 +52,7 @@ class ControllerTrajet
         }
 
         $villes = ModelVille::readAll();
-        $vehicules = ModelVehicule::readByProprietaireId($userId);
+        $vehicules = ModelVehicule::readByProprietaireId($idUtilisateur);
 
         require_once ROOT . '/app/view/trajet/viewInsert.php';
     }
@@ -60,21 +60,21 @@ class ControllerTrajet
 
     public static function selectActiveTrajetForPassengers($args)
     {
-        if ($_SESSION['role'] !== 'conducteur') {
+        if ($_SESSION['role_utilisateur'] !== 'conducteur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
-        $trajetId = $_POST['trajet_id'] ?? null;
+        $idUtilisateur = $_SESSION['id_utilisateur'];
+        $idTrajet = $_POST['trajet_id'] ?? null;
 
-        if ($trajetId !== null) {
-            $trajet = ModelTrajet::readById($trajetId);
-            $passagers = ModelTrajet::readPassengersByTrajetId($trajetId);
+        if ($idTrajet !== null) {
+            $trajet = ModelTrajet::readById($idTrajet);
+            $passagers = ModelTrajet::readPassengersByTrajetId($idTrajet);
 
             require_once ROOT . '/app/view/trajet/viewPassengers.php';
         } else {
-            $trajets = ModelTrajet::readActiveByConducteurId($userId);
+            $trajets = ModelTrajet::readActiveByConducteurId($idUtilisateur);
 
             require_once ROOT . '/app/view/trajet/viewSelectActive.php';
         }
@@ -83,22 +83,22 @@ class ControllerTrajet
 
     public static function selectActiveTrajetToClose($args)
     {
-        if ($_SESSION['role'] !== 'conducteur') {
+        if ($_SESSION['role_utilisateur'] !== 'conducteur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
+        $idUtilisateur = $_SESSION['id_utilisateur'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $trajetId = $_POST['trajet_id'];
+            $idTrajet = $_POST['trajet_id'];
             
-            ModelTrajet::closeTrajet($trajetId);
+            ModelTrajet::closeTrajet($idTrajet);
 
             header('Location: index.php?controller=trajet&action=readMyTrajets');
             exit();
         } else {
-            $trajets = ModelTrajet::readActiveByConducteurId($userId);
+            $trajets = ModelTrajet::readActiveByConducteurId($idUtilisateur);
 
             require_once ROOT . '/app/view/trajet/viewCloseActive.php';
         }

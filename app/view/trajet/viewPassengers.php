@@ -16,26 +16,24 @@
                 <div class="card-header">
                     Détails du trajet sélectionné
                 </div>
-                <div class="card-body row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label text-muted mb-0">Itinéraire</label>
-                        <div class="fw-semibold">
+                <div class="card-body p-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Itinéraire :</strong>
                             <?= htmlspecialchars($trajet['nom_ville_depart']) ?> - <?= htmlspecialchars($trajet['nom_ville_arrivee']) ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label text-muted mb-0">Départ</label>
-                        <div class="fw-semibold">
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Départ :</strong>
                             <?php
                             $date = new DateTime($trajet['date_depart'] . ' ' . $trajet['heure_depart']);
                             echo htmlspecialchars($date->format('d/m/Y à H:i'));
                             ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label text-muted mb-0">Prix par place</label>
-                        <div class="fw-semibold"><?= htmlspecialchars($trajet['prix']) ?> €</div>
-                    </div>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Prix par place :</strong>
+                            <?= htmlspecialchars($trajet['prix']) ?> €
+                        </li>
+                    </ul>
                 </div>
             </div>
         <?php endif; ?>

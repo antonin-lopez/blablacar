@@ -6,13 +6,13 @@ class ControllerVehicule
 {
     public static function readMyVehicles($args)
     {
-        if ($_SESSION['role'] !== 'conducteur') {
+        if ($_SESSION['role_utilisateur'] !== 'conducteur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
-        $vehicules = ModelVehicule::readByProprietaireId($userId);
+        $idUtilisateur = $_SESSION['id_utilisateur'];
+        $vehicules = ModelVehicule::readByProprietaireId($idUtilisateur);
 
         require_once ROOT . '/app/view/vehicule/viewAll.php';
     }
@@ -20,7 +20,7 @@ class ControllerVehicule
     
     public static function readAll($args)
     {
-        if ($_SESSION['role'] !== 'administrateur') {
+        if ($_SESSION['role_utilisateur'] !== 'administrateur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
@@ -33,7 +33,7 @@ class ControllerVehicule
 
     public static function create($args)
     {
-        if ($_SESSION['role'] !== 'administrateur') {
+        if ($_SESSION['role_utilisateur'] !== 'administrateur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }

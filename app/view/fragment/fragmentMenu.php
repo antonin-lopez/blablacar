@@ -1,10 +1,9 @@
 <?php
-
-$userId = $_SESSION['user_id'] ?? -1;
-$nom     = $_SESSION['nom'] ?? '';
-$prenom  = $_SESSION['prenom'] ?? '';
-$role    = $_SESSION['role'] ?? '';
-$solde   = $_SESSION['solde'] ?? 0;
+$idUtilisateur     = $_SESSION['id_utilisateur'] ?? -1;
+$nomUtilisateur    = $_SESSION['nom_utilisateur'] ?? '';
+$prenomUtilisateur = $_SESSION['prenom_utilisateur'] ?? '';
+$roleUtilisateur   = $_SESSION['role_utilisateur'] ?? '';
+$soldeUtilisateur  = $_SESSION['solde_utilisateur'] ?? 0;
 ?>
 
 <nav class="navbar navbar-expand-lg py-3 bg-primary sticky-top">
@@ -17,14 +16,14 @@ $solde   = $_SESSION['solde'] ?? 0;
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
-                <?php if ($userId >= 0): ?>
-                    <?php if ($role === 'administrateur'): ?>
+                <?php if ($idUtilisateur >= 0): ?>
+                    <?php if ($roleUtilisateur === 'administrateur'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Administrateur</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="index.php?controller=utilisateur&action=readAll">Liste des utilisateurs</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=utilisateur&action=createConducteur">Ajout d'un conducteur</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=utilisateur&action=createPassager">Ajout d'un passager</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=utilisateur&action=create&role_nouvel_utilisateur=conducteur">Ajout d'un conducteur</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=utilisateur&action=create&role_nouvel_utilisateur=passager">Ajout d'un passager</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -34,10 +33,10 @@ $solde   = $_SESSION['solde'] ?? 0;
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="index.php?controller=ville&action=readAll">Liste des villes</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=ville&action=createVille">Ajout d'une ville</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=ville&action=create">Ajout d'une ville</a></li>
                             </ul>
                         </li>
-                    <?php elseif ($role === 'conducteur'): ?>
+                    <?php elseif ($roleUtilisateur === 'conducteur'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Conducteur</a>
                             <ul class="dropdown-menu">
@@ -54,7 +53,7 @@ $solde   = $_SESSION['solde'] ?? 0;
                                 <li><a class="dropdown-item" href="index.php?controller=trajet&action=selectActiveTrajetToClose">Clôturer un trajet</a></li>
                             </ul>
                         </li>
-                    <?php elseif ($role === 'passager'): ?>
+                    <?php elseif ($roleUtilisateur === 'passager'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Passager</a>
                             <ul class="dropdown-menu">
@@ -83,16 +82,16 @@ $solde   = $_SESSION['solde'] ?? 0;
             </ul>
 
             <ul class="navbar-nav">
-                <?php if ($userId === -1): ?>
+                <?php if ($idUtilisateur === -1): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?controller=connexion&action=login">Se connecter</a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item me-3 d-flex align-items-center">
                         <span class="navbar-text fw-medium">
-                            <?= "$prenom $nom" ?>
+                            <?= "$prenomUtilisateur $nomUtilisateur" ?>
                             <span class="badge bg-body text-body ms-1 py-2">
-                                <?= $solde ?> €
+                                <?= $soldeUtilisateur ?> €
                             </span>
                         </span>
                     </li>

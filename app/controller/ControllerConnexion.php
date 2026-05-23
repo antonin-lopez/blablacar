@@ -8,18 +8,18 @@ class ControllerConnexion
         $errors = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $login = $_POST['login'] ?? '';
-            $password = $_POST['password'] ?? '';
+            $login = $_POST['login_utilisateur'] ?? '';
+            $password = $_POST['password_utilisateur'] ?? '';
 
             try {
-                $user = ModelUtilisateur::verifierCredentials($login, $password);
+                $utilisateur = ModelUtilisateur::verifierCredentials($login, $password);
 
-                if ($user) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['nom'] = $user['nom'];
-                    $_SESSION['prenom'] = $user['prenom'];
-                    $_SESSION['role'] = $user['role'];
-                    $_SESSION['solde'] = $user['solde'];
+                if ($utilisateur) {
+                    $_SESSION['id_utilisateur'] = $utilisateur['id'];
+                    $_SESSION['nom_utilisateur'] = $utilisateur['nom'];
+                    $_SESSION['prenom_utilisateur'] = $utilisateur['prenom'];
+                    $_SESSION['role_utilisateur'] = $utilisateur['role'];
+                    $_SESSION['solde_utilisateur'] = $utilisateur['solde'];
 
                     header('Location: index.php?controller=accueil&action=home');
                     exit();

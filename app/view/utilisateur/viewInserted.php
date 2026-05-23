@@ -3,28 +3,29 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
 
-    <main class="container my-5">
-        <?php if (isset($results) && !empty($results)): 
-            $nom = htmlspecialchars($_GET['nom']);
-            $prenom = htmlspecialchars($_GET['prenom']);
-            $login = strtolower($nom . $prenom);
-            $password = htmlspecialchars($_GET['password']);
-            $role = htmlspecialchars($_GET['userRole']);
-            $solde = htmlspecialchars($_GET['solde']);
-            
-            echo "<h3>Le nouvel utilisateur a été ajouté </h3>";
-            echo "<ul>";
-            echo "<li>ID = " . htmlspecialchars($results) . "</li>";
-            echo "<li>Nom = " . $nom . "</li>";
-            echo "<li>Prénom = " . $prenom . "</li>";
-            echo "<li>Login = " . $login . "</li>";
-            echo "<li>Password = " . $password . "</li>";
-            echo "<li>Rôle = " . $role . "</li>";
-            echo "<li>Solde = " . $solde . "</li>";
-            echo "</ul>";
-        else:
-            echo "<h3>Problème d'insertion de l'utilisateur</h3>";
-        endif; ?>
+    <main class="container mt-5 d-flex flex-column gap-4">
+        <?php if (isset($nouvelUtilisateur) && $nouvelUtilisateur): ?>
+
+            <div class="alert alert-success">
+                Le nouvel utilisateur a été ajouté avec succès !
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Récapitulatif des informations
+                </div>
+                <div class="card-body p-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Nom :</strong> <?= htmlspecialchars($nomNouvelUtilisateur) ?></li>
+                        <li class="list-group-item"><strong>Prénom :</strong> <?= htmlspecialchars($prenomNouvelUtilisateur) ?></li>
+                        <li class="list-group-item"><strong>Login généré :</strong> <?= htmlspecialchars($loginNouvelUtilisateur) ?></li>
+                        <li class="list-group-item"><strong>Mot de passe :</strong> <?= htmlspecialchars($mdpNouvelUtilisateur) ?></li>
+                        <li class="list-group-item"><strong>Rôle :</strong> <?= htmlspecialchars($roleNouvelUtilisateur) ?></li>
+                        <li class="list-group-item"><strong>Solde initial :</strong> <?= htmlspecialchars($soldeNouvelUtilisateur) ?> €</li>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
     </main>
 
     <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
