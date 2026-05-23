@@ -1,7 +1,7 @@
-<?php require 'app/view/fragment/fragmentHeader.html'; ?>
+<?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php require 'app/view/fragment/fragmentMenu.php'; ?>
+    <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1>Ajouter un trajet</h1>
@@ -74,7 +74,7 @@
 
     </main>
 
-    <?php require 'app/view/fragment/fragmentFooter.html'; ?>
+    <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
 </body>
 
 </html>

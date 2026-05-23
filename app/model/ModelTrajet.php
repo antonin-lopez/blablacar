@@ -89,4 +89,18 @@ class ModelTrajet
 
         return $stmt->fetchAll();
     }
+
+
+    public static function closeTrajet($trajetId)
+    {
+        $db = Model::getInstance();
+
+        $sql = "UPDATE trajet 
+                SET statut = 'passif' 
+                WHERE id = :id";
+
+        $stmt = $db->prepare($sql);
+        
+        return $stmt->execute(['id' => $trajetId]);
+    }
 }

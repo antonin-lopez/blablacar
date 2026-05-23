@@ -32,7 +32,7 @@ class ControllerTrajet
             $villeDepart  = $_POST['ville_depart'] ?? '';
             $villeArrivee = $_POST['ville_arrivee'] ?? '';
             $vehiculeId   = $_POST['vehicule_id'] ?? '';
-            $prix          = $_POST['prix'] ?? '';
+            $prix         = $_POST['prix'] ?? '';
             $dateDepart   = $_POST['date_depart'] ?? '';
             $heureDepart  = $_POST['heure_depart'] ?? '';
 
@@ -76,6 +76,30 @@ class ControllerTrajet
             $trajets = ModelTrajet::readActiveByConducteurId($userId);
 
             require_once ROOT . '/app/view/trajet/viewSelectActive.php';
+        }
+    }
+
+
+    public static function selectActiveTrajetToClose($args)
+    {
+        if ($_SESSION['role'] !== 'conducteur') {
+            header('Location: index.php?controller=accueil&action=home');
+            exit();
+        }
+
+        $userId = $_SESSION['user_id'];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $trajetId = $_POST['trajet_id'];
+            
+            ModelTrajet::closeTrajet($trajetId);
+
+            header('Location: index.php?controller=trajet&action=readMyTrajets');
+            exit();
+        } else {
+            $trajets = ModelTrajet::readActiveByConducteurId($userId);
+
+            require_once ROOT . '/app/view/trajet/viewCloseActive.php';
         }
     }
 }
