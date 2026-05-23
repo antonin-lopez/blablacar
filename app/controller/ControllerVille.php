@@ -11,7 +11,7 @@ class ControllerVille
 
     public static function create($args)
     {
-        if ($_SESSION['role'] !== 'administrateur') {
+        if ($_SESSION['role_utilisateur'] !== 'administrateur') {
             header('Location: index.php?controller=accueil&action=home');
             exit();
         }
@@ -19,14 +19,14 @@ class ControllerVille
         $errors = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = $_POST['nom'] ?? '';
+            $nomNouvelleVille = $_POST['nom_nouvelle_ville'] ?? '';
 
-            if (empty($nom)) {
+            if (empty($nomNouvelleVille)) {
                 $errors = "Le nom de la ville ne peut pas être vide.";
-            } elseif (ModelVille::existe($nom)) {
+            } elseif (ModelVille::existe($nomNouvelleVille)) {
                 $errors = "Cette ville existe déjà.";
             } else {
-                $result = ModelVille::insert($nom);
+                $result = ModelVille::insert($nomNouvelleVille);
 
                 if ($result) {
                     header('Location: index.php?controller=ville&action=readAll');

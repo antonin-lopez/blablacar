@@ -28,7 +28,7 @@ $soldeUtilisateur  = $_SESSION['solde_utilisateur'] ?? 0;
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="index.php?controller=vehicule&action=readAll">Liste des véhicules</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=vehicule&action=createVehicule">Ajout d'un véhicule</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=vehicule&action=create">Ajout d'un véhicule</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

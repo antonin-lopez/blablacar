@@ -4,7 +4,7 @@
     <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
-        <h1>Mes véhicules</h1>
+        <h1>Véhicules</h1>
 
         <?php if (empty($vehicules)): ?>
             <div class="alert alert-info">

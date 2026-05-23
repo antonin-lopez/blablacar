@@ -12,7 +12,7 @@
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="index.php?controller=utilisateur&action=create" class="row g-3">
+        <form method="POST" action="" class="row g-3">
 
             <div class="col-md-6">
                 <label for="nom_nouvel_utilisateur" class="form-label">Nom</label>

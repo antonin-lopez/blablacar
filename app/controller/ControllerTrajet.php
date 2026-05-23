@@ -30,19 +30,27 @@ class ControllerTrajet
         $idUtilisateur = $_SESSION['id_utilisateur'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $villeDepart  = $_POST['ville_depart'] ?? '';
-            $villeArrivee = $_POST['ville_arrivee'] ?? '';
-            $idVehicule   = $_POST['id_vehicule'] ?? '';
-            $prix         = $_POST['prix'] ?? '';
-            $dateDepart   = $_POST['date_depart'] ?? '';
-            $heureDepart  = $_POST['heure_depart'] ?? '';
+            $villeDepartNouveauTrajet  = $_POST['ville_depart_nouveau_trajet'] ?? '';
+            $villeArriveeNouveauTrajet = $_POST['ville_arrivee_nouveau_trajet'] ?? '';
+            $idVehiculeNouveauTrajet   = $_POST['id_vehicule_nouveau_trajet'] ?? '';
+            $prixNouveauTrajet         = $_POST['prix_nouveau_trajet'] ?? '';
+            $dateDepartNouveauTrajet   = $_POST['date_depart_nouveau_trajet'] ?? '';
+            $heureDepartNouveauTrajet  = $_POST['heure_depart_nouveau_trajet'] ?? '';
 
-            if ($villeDepart === $villeArrivee) {
+            if ($villeDepartNouveauTrajet === $villeArriveeNouveauTrajet) {
                 $errors = "La ville de départ doit être différente de la ville d'arrivée.";
             } else {
-                $result = ModelTrajet::insert($villeDepart, $villeArrivee, $idUtilisateur, $idVehicule, $prix, $dateDepart, $heureDepart);
+                $nouveauTrajet = ModelTrajet::insert(
+                    $villeDepartNouveauTrajet,
+                    $villeArriveeNouveauTrajet,
+                    $idUtilisateur,
+                    $idVehiculeNouveauTrajet,
+                    $prixNouveauTrajet,
+                    $dateDepartNouveauTrajet,
+                    $heureDepartNouveauTrajet
+                );
 
-                if ($result) {
+                if ($nouveauTrajet) {
                     header('Location: index.php?controller=trajet&action=readMyTrajets');
                     exit();
                 } else {
@@ -92,7 +100,7 @@ class ControllerTrajet
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $idTrajet = $_POST['trajet_id'];
-            
+
             ModelTrajet::closeTrajet($idTrajet);
 
             header('Location: index.php?controller=trajet&action=readMyTrajets');

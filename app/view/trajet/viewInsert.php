@@ -14,8 +14,8 @@
 
         <form method="POST" action="" class="row g-3">
             <div class="col-md-6">
-                <label for="ville_depart" class="form-label">Ville de départ</label>
-                <select class="form-select" id="ville_depart" name="ville_depart" required>
+                <label for="ville_depart_nouveau_trajet" class="form-label">Ville de départ</label>
+                <select class="form-select" id="ville_depart_nouveau_trajet" name="ville_depart_nouveau_trajet" required>
                     <option value="" disabled selected>Choisissez une ville de départ</option>
                     <?php foreach ($villes ?? [] as $ville): ?>
                         <option value="<?= $ville['id'] ?>"><?= htmlspecialchars($ville['nom']) ?></option>
@@ -24,8 +24,8 @@
             </div>
 
             <div class="col-md-6">
-                <label for="ville_arrivee" class="form-label">Ville d'arrivée</label>
-                <select class="form-select" id="ville_arrivee" name="ville_arrivee" required>
+                <label for="ville_arrivee_nouveau_trajet" class="form-label">Ville d'arrivée</label>
+                <select class="form-select" id="ville_arrivee_nouveau_trajet" name="ville_arrivee_nouveau_trajet" required>
                     <option value="" disabled selected>Choisissez une ville d'arrivée</option>
                     <?php foreach ($villes ?? [] as $ville): ?>
                         <option value="<?= $ville['id'] ?>"><?= htmlspecialchars($ville['nom']) ?></option>
@@ -34,8 +34,8 @@
             </div>
 
             <div class="col-md-12">
-                <label for="id_vehicule" class="form-label">Véhicule</label>
-                <select class="form-select" id="id_vehicule" name="id_vehicule" required>
+                <label for="id_vehicule_nouveau_trajet" class="form-label">Véhicule</label>
+                <select class="form-select" id="id_vehicule_nouveau_trajet" name="id_vehicule_nouveau_trajet" required>
                     <option value="" disabled selected>Choisissez un véhicule</option>
                     <?php foreach ($vehicules ?? [] as $vehicule): ?>
                         <option value="<?= $vehicule['id'] ?>">
@@ -46,21 +46,21 @@
             </div>
 
             <div class="col-md-4">
-                <label for="date_depart" class="form-label">Date de départ</label>
-                <input type="date" class="form-select" id="date_depart" name="date_depart" required>
+                <label for="date_depart_nouveau_trajet" class="form-label">Date de départ</label>
+                <input type="date" class="form-select" id="date_depart_nouveau_trajet" name="date_depart_nouveau_trajet" required>
             </div>
 
 
             <div class="col-md-4">
-                <label for="heure_depart" class="form-label">Heure de départ</label>
-                <input type="time" class="form-control" id="heure_depart" name="heure_depart" required>
+                <label for="heure_depart_nouveau_trajet" class="form-label">Heure de départ</label>
+                <input type="time" class="form-control" id="heure_depart_nouveau_trajet" name="heure_depart_nouveau_trajet" required>
             </div>
 
 
             <div class="col-md-4">
-                <label for="prix" class="form-label">Prix</label>
+                <label for="prix_nouveau_trajet" class="form-label">Prix</label>
                 <div class="input-group">
-                    <input type="number" class="form-control" id="prix" name="prix" min="0" step="1" placeholder="0.00" required>
+                    <input type="number" class="form-control" id="prix_nouveau_trajet" name="prix_nouveau_trajet" min="0" step="1" placeholder="0.00" required>
                     <span class="input-group-text">€</span>
                 </div>
             </div>

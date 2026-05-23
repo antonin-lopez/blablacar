@@ -17,7 +17,7 @@ class ControllerVehicule
         require_once ROOT . '/app/view/vehicule/viewAll.php';
     }
 
-    
+
     public static function readAll($args)
     {
         if ($_SESSION['role_utilisateur'] !== 'administrateur') {
@@ -41,15 +41,21 @@ class ControllerVehicule
         $errors = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $marque          = $_POST['marque'] ?? '';
-            $modele          = $_POST['modele'] ?? '';
-            $annee           = $_POST['annee'] ?? '';
-            $immatriculation = $_POST['immatriculation'] ?? '';
-            $proprietaireId  = $_POST['proprietaire_id'] ?? '';
+            $marqueNouveauVehicule          = $_POST['marque_nouveau_vehicule'] ?? '';
+            $modeleNouveauVehicule          = $_POST['modele_nouveau_vehicule'] ?? '';
+            $anneeNouveauVehicule           = $_POST['annee_nouveau_vehicule'] ?? '';
+            $immatriculationNouveauVehicule = $_POST['immatriculation_nouveau_vehicule'] ?? '';
+            $proprietaireIdNouveauVehicule  = $_POST['id_proprietaire_nouveau_vehicule'] ?? '';
 
-            $result = ModelVehicule::insert($marque, $modele, $annee, $immatriculation, $proprietaireId);
+            $nouveauVehicule = ModelVehicule::insert(
+                $marqueNouveauVehicule,
+                $modeleNouveauVehicule,
+                $anneeNouveauVehicule,
+                $immatriculationNouveauVehicule,
+                $proprietaireIdNouveauVehicule
+            );
 
-            if ($result) {
+            if ($nouveauVehicule) {
                 header('Location: index.php?controller=vehicule&action=readAll');
                 exit();
             } else {
