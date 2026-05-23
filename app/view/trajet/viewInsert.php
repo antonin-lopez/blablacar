@@ -3,8 +3,8 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require 'app/view/fragment/fragmentMenu.php'; ?>
 
-    <main class="container mt-5">
-        <h1 class="mb-4">Ajouter un trajet</h1>
+    <main class="container mt-5 d-flex flex-column gap-4">
+        <h1>Ajouter un trajet</h1>
 
         <?php if (!empty($erreur)): ?>
             <div class='alert alert-danger'>

@@ -3,8 +3,8 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require 'app/view/fragment/fragmentMenu.php'; ?>
 
-    <main class="container mt-5">
-        <h1 class="mb-4">Mes trajets</h1>
+    <main class="container mt-5 d-flex flex-column gap-4">
+        <h1>Mes trajets</h1>
 
         <?php if (empty($trajets)): ?>
             <div class="alert alert-info">
@@ -33,7 +33,10 @@
                                     <?= htmlspecialchars($trajet['nom_ville_arrivee']) ?>
                                 </td>
                                 <td>
-                                    <?= htmlspecialchars($trajet['date_depart']) ?>
+                                    <?php
+                                    $date = new DateTime($trajet['date_depart']);
+                                    echo htmlspecialchars($date->format('d/m/Y'));
+                                    ?>
                                 </td>
                                 <td>
                                     <?php

@@ -3,8 +3,8 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require 'app/view/fragment/fragmentMenu.php'; ?>
 
-    <main class="container mt-5">
-        <h1 class="mb-4">Mes véhicules</h1>
+    <main class="container mt-5 d-flex flex-column gap-4">
+        <h1>Mes véhicules</h1>
 
         <?php if (empty($vehicules)): ?>
             <div class="alert alert-info">
@@ -25,18 +25,10 @@
                     <tbody>
                         <?php foreach ($vehicules as $vehicule): ?>
                             <tr>
-                                <td>
-                                    <?= htmlspecialchars($vehicule['marque']) ?>
-                                </td>
-                                <td>
-                                    <?= htmlspecialchars($vehicule['modele']) ?>
-                                </td>
-                                <td>
-                                    <?= htmlspecialchars($vehicule['annee']) ?>
-                                </td>
-                                <td>
-                                    <?= htmlspecialchars($vehicule['immatriculation']) ?>
-                                </td>
+                                <td><?= htmlspecialchars($vehicule['marque']) ?></td>
+                                <td><?= htmlspecialchars($vehicule['modele']) ?></td>
+                                <td><?= htmlspecialchars($vehicule['annee']) ?></td>
+                                <td><?= htmlspecialchars($vehicule['immatriculation']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

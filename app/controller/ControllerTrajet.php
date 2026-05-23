@@ -55,4 +55,27 @@ class ControllerTrajet
 
         require_once ROOT . '/app/view/trajet/viewInsert.php';
     }
+
+
+    public static function selectActiveTrajetForPassengers($args)
+    {
+        if ($_SESSION['role'] !== 'conducteur') {
+            header('Location: index.php?controller=accueil&action=home');
+            exit();
+        }
+
+        $userId = $_SESSION['user_id'];
+        $trajetId = $_POST['trajet_id'] ?? null;
+
+        if ($trajetId !== null) {
+            $trajet = ModelTrajet::readById($trajetId);
+            $passagers = ModelTrajet::readPassengersByTrajetId($trajetId);
+
+            require_once ROOT . '/app/view/trajet/viewPassengers.php';
+        } else {
+            $trajets = ModelTrajet::readActiveByConducteurId($userId);
+
+            require_once ROOT . '/app/view/trajet/viewSelectActive.php';
+        }
+    }
 }
