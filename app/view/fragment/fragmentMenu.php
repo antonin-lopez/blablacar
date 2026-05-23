@@ -29,12 +29,12 @@ $solde   = $_SESSION['solde'] ?? 0;
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="index.php?controller=vehicule&action=readAll">Liste des véhicules</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=vehicule&action=create">Ajout d'un véhicule</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=vehicule&action=createVehicule">Ajout d'un véhicule</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="index.php?controller=ville&action=readAll">Liste des villes</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=ville&action=create">Ajout d'une ville</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=ville&action=createVille">Ajout d'une ville</a></li>
                             </ul>
                         </li>
                     <?php elseif ($role === 'conducteur'): ?>
