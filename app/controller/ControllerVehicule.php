@@ -16,33 +16,49 @@ class ControllerVehicule
 
         require_once ROOT . '/app/view/vehicule/viewAll.php';
     }
+
     
-    public static function readAll($params = []) {
-        $results = ModelVehicule::getAll();
-        require ROOT . '/app/view/vehicule/viewAll.php';
+    public static function readAll($args)
+    {
+        if ($_SESSION['role'] !== 'administrateur') {
+            header('Location: index.php?controller=accueil&action=home');
+            exit();
+        }
+
+        $vehicules = ModelVehicule::readAll();
+
+        require_once ROOT . '/app/view/vehicule/viewAll.php';
     }
 
-    public static function createVehicule(){
-        $conducteurs = ModelUtilisateur::getConducteurs();
-        require ROOT . '/app/view/vehicule/viewInsert.php';
-    }
 
-    public static function vehiculeCreated(){
-        $marque = htmlspecialchars($_GET['marque']);
-        $modele = htmlspecialchars($_GET['modele']);
-        $annee = htmlspecialchars($_GET['annee']);
-        $immatriculation = htmlspecialchars($_GET['immatriculation']);
-        $proprietaire_id = htmlspecialchars($_GET['proprietaire_id']);
-        
-        $results = ModelVehicule::insert(
-            $marque,
-            $modele,
-            $annee,
-            $immatriculation,
-            $proprietaire_id
-        );
-        
-        require ROOT . '/app/view/vehicule/viewInserted.php';
+    public static function create($args)
+    {
+        if ($_SESSION['role'] !== 'administrateur') {
+            header('Location: index.php?controller=accueil&action=home');
+            exit();
+        }
+
+        $errors = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $marque          = $_POST['marque'] ?? '';
+            $modele          = $_POST['modele'] ?? '';
+            $annee           = $_POST['annee'] ?? '';
+            $immatriculation = $_POST['immatriculation'] ?? '';
+            $proprietaireId  = $_POST['proprietaire_id'] ?? '';
+
+            $result = ModelVehicule::insert($marque, $modele, $annee, $immatriculation, $proprietaireId);
+
+            if ($result) {
+                header('Location: index.php?controller=vehicule&action=readAll');
+                exit();
+            } else {
+                $errors = "Erreur lors de la création du véhicule.";
+            }
+        }
+
+        $conducteurs = ModelUtilisateur::readConducteurs();
+
+        require_once ROOT . '/app/view/vehicule/viewInsert.php';
     }
 }
-?>

@@ -5,7 +5,7 @@ class ControllerConnexion
 {
     public static function login($args = [])
     {
-        $erreur = '';
+        $errors = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $login = $_POST['login'] ?? '';
@@ -24,15 +24,16 @@ class ControllerConnexion
                     header('Location: index.php?controller=accueil&action=home');
                     exit();
                 } else {
-                    $erreur = 'Identifiant ou mot de passe incorrect.';
+                    $errors = 'Identifiant ou mot de passe incorrect.';
                 }
             } catch (Exception $e) {
-                $erreur = $e->getMessage();
+                $errors = $e->getMessage();
             }
         }
 
         require ROOT . '/app/view/connexion/viewLogin.php';
     }
+
 
     public static function logout($args = [])
     {

@@ -26,12 +26,8 @@
                     <tbody>
                         <?php foreach ($trajets as $trajet): ?>
                             <tr>
-                                <td>
-                                    <?= htmlspecialchars($trajet['nom_ville_depart']) ?>
-                                </td>
-                                <td>
-                                    <?= htmlspecialchars($trajet['nom_ville_arrivee']) ?>
-                                </td>
+                                <td><?= htmlspecialchars($trajet['nom_ville_depart']) ?></td>
+                                <td><?= htmlspecialchars($trajet['nom_ville_arrivee']) ?></td>
                                 <td>
                                     <?php
                                     $date = new DateTime($trajet['date_depart']);
@@ -44,9 +40,7 @@
                                     echo htmlspecialchars($heure->format('H:i'));
                                     ?>
                                 </td>
-                                <td>
-                                    <?= htmlspecialchars($trajet['statut']) ?>
-                                </td>
+                                <td><?= htmlspecialchars($trajet['statut']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

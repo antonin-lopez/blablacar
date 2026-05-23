@@ -18,6 +18,7 @@ class ControllerTrajet
         require_once ROOT . '/app/view/trajet/viewAll.php';
     }
 
+
     public static function create($args)
     {
         if ($_SESSION['role'] !== 'conducteur') {
@@ -25,7 +26,7 @@ class ControllerTrajet
             exit();
         }
 
-        $error = '';
+        $errors = '';
         $userId = $_SESSION['user_id'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,7 +38,7 @@ class ControllerTrajet
             $heureDepart  = $_POST['heure_depart'] ?? '';
 
             if ($villeDepart === $villeArrivee) {
-                $error = "La ville de départ doit être différente de la ville d'arrivée.";
+                $errors = "La ville de départ doit être différente de la ville d'arrivée.";
             } else {
                 $result = ModelTrajet::insert($villeDepart, $villeArrivee, $userId, $vehiculeId, $prix, $dateDepart, $heureDepart);
 
@@ -45,7 +46,7 @@ class ControllerTrajet
                     header('Location: index.php?controller=trajet&action=readMyTrajets');
                     exit();
                 } else {
-                    $error = "Erreur lors de la création du trajet.";
+                    $errors = "Erreur lors de la création du trajet.";
                 }
             }
         }

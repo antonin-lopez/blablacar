@@ -30,13 +30,13 @@ class ModelTrajet
         $stmt = $db->prepare($sql);
 
         return $stmt->execute([
-            'ville_depart'   => $villeDepart,
-            'ville_arrivee'  => $villeArrivee,
-            'conducteur_id'  => $conducteurId,
-            'vehicule_id'    => $vehiculeId,
-            'prix'           => $prix,
-            'date_depart'    => $dateDepart,
-            'heure_depart'   => $heureDepart
+            'ville_depart'  => $villeDepart,
+            'ville_arrivee' => $villeArrivee,
+            'conducteur_id' => $conducteurId,
+            'vehicule_id'   => $vehiculeId,
+            'prix'          => $prix,
+            'date_depart'   => $dateDepart,
+            'heure_depart'  => $heureDepart
         ]);
     }
 

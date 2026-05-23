@@ -6,7 +6,7 @@
     <main class="container my-5">
         <?php if (isset($results) && !empty($results)): 
             require_once ROOT . '/app/model/ModelUtilisateur.php';
-            $conducteurs = ModelUtilisateur::getConducteurs();
+            $conducteurs = ModelUtilisateur::readConducteurs();
             $nomProprietaire = '';
             foreach ($conducteurs as $conducteur) {
                 if ($conducteur['id'] == $_GET['proprietaire_id']) {
