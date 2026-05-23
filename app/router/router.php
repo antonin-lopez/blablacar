@@ -1,15 +1,24 @@
 <?php
-require_once 'app/controller/ControllerAccueil.php';
+$nomController = $_GET['controller'] ?? 'accueil';
+$classeController = 'Controller' . ucfirst($nomController);
+$fichierController = 'app/controller/' . $classeController . '.php';
 
-$nomController = $_GET['controller'] ?? 'Accueil';
 $action = $_GET['action'] ?? 'home';
 
-$classeController = 'Controller' . ucfirst($nomController);
+if (file_exists($fichierController)) {
+    require_once $fichierController;
 
-if (class_exists($classeController) && method_exists($classeController, $action)) {
-    $controller = new $classeController();
-    $controller->$action($_GET);
+    if (class_exists($classeController) && method_exists($classeController, $action)) {
+        $classeController::$action($_GET);
+    } else {
+        chargerAccueil();
+    }
 } else {
-    $controller = new ControllerAccueil();
-    $controller->home($_GET);
+    chargerAccueil();
+}
+
+function chargerAccueil()
+{
+    require_once 'app/controller/ControllerAccueil.php';
+    ControllerAccueil::home($_GET);
 }
