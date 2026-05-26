@@ -40,7 +40,7 @@ class ControllerTrajet
             if ($villeDepartNouveauTrajet === $villeArriveeNouveauTrajet) {
                 $errors = "La ville de départ doit être différente de la ville d'arrivée.";
             } else {
-                $nouveauTrajet = ModelTrajet::insert(
+                $succes = ModelTrajet::insert(
                     $villeDepartNouveauTrajet,
                     $villeArriveeNouveauTrajet,
                     $idUtilisateur,
@@ -50,7 +50,7 @@ class ControllerTrajet
                     $heureDepartNouveauTrajet
                 );
 
-                if ($nouveauTrajet) {
+                if ($succes) {
                     header('Location: index.php?controller=trajet&action=readMyTrajets');
                     exit();
                 } else {

@@ -6,9 +6,9 @@
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1 class="mb-4">Connexion</h1>
 
-        <?php if (!empty($erreur)): ?>
+        <?php if (!empty($errors)): ?>
             <div class='alert alert-danger'>
-                <?php echo $erreur; ?>
+                <?php echo $errors; ?>
             </div>
         <?php endif; ?>
 

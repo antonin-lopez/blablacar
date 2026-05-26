@@ -7,7 +7,9 @@ class ModelTrajet
     {
         $db = Model::getInstance();
 
-        $sql = "SELECT t.*, v_dep.nom AS nom_ville_depart, v_arr.nom AS nom_ville_arrivee
+        $sql = "SELECT t.*,
+                       v_dep.nom AS nom_ville_depart,
+                       v_arr.nom AS nom_ville_arrivee
                 FROM trajet t
                 JOIN ville v_dep ON t.ville_depart = v_dep.id
                 JOIN ville v_arr ON t.ville_arrivee = v_arr.id
@@ -24,8 +26,23 @@ class ModelTrajet
     {
         $db = Model::getInstance();
 
-        $sql = "INSERT INTO trajet (id, ville_depart, ville_arrivee, conducteur_id, vehicule_id, prix, date_depart, heure_depart, statut)
-                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM trajet t2), :ville_depart, :ville_arrivee, :conducteur_id, :vehicule_id, :prix, :date_depart, :heure_depart, 'actif')";
+        $sql = "INSERT INTO trajet (id,
+                                    ville_depart,
+                                    ville_arrivee,
+                                    conducteur_id,
+                                    vehicule_id,
+                                    prix, date_depart,
+                                    heure_depart,
+                                    statut)
+                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM trajet t2),
+                       :ville_depart,
+                       :ville_arrivee,
+                       :conducteur_id,
+                       :vehicule_id,
+                       :prix,
+                       :date_depart,
+                       :heure_depart,
+                       'actif')";
 
         $stmt = $db->prepare($sql);
 
@@ -45,7 +62,9 @@ class ModelTrajet
     {
         $db = Model::getInstance();
 
-        $sql = "SELECT t.*, v_dep.nom AS nom_ville_depart, v_arr.nom AS nom_ville_arrivee
+        $sql = "SELECT t.*,
+                       v_dep.nom AS nom_ville_depart,
+                       v_arr.nom AS nom_ville_arrivee
                 FROM trajet t
                 JOIN ville v_dep ON t.ville_depart = v_dep.id
                 JOIN ville v_arr ON t.ville_arrivee = v_arr.id
@@ -62,7 +81,9 @@ class ModelTrajet
     {
         $db = Model::getInstance();
 
-        $sql = "SELECT t.*, v_dep.nom AS nom_ville_depart, v_arr.nom AS nom_ville_arrivee
+        $sql = "SELECT t.*,
+                       v_dep.nom AS nom_ville_depart,
+                       v_arr.nom AS nom_ville_arrivee
                 FROM trajet t
                 JOIN ville v_dep ON t.ville_depart = v_dep.id
                 JOIN ville v_arr ON t.ville_arrivee = v_arr.id
@@ -70,7 +91,7 @@ class ModelTrajet
 
         $stmt = $db->prepare($sql);
         $stmt->execute(['id' => $trajetId]);
-        
+
         return $stmt->fetch();
     }
 
@@ -100,7 +121,29 @@ class ModelTrajet
                 WHERE id = :id";
 
         $stmt = $db->prepare($sql);
-        
+
         return $stmt->execute(['id' => $trajetId]);
+    }
+
+
+    public static function readAllActiveExcludingPassenger($idPassager)
+    {
+        $db = Model::getInstance();
+
+        $sql = "SELECT t.*, 
+                       v_dep.nom AS nom_ville_depart, 
+                       v_arr.nom AS nom_ville_arrivee, 
+                       u.nom, 
+                       u.prenom
+            FROM trajet t
+            JOIN ville v_dep ON t.ville_depart = v_dep.id
+            JOIN ville v_arr ON t.ville_arrivee = v_arr.id
+            JOIN utilisateur u ON t.conducteur_id = u.id
+            WHERE t.statut = 'actif' AND t.conducteur_id != :id_passager";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['id_passager' => $idPassager]);
+
+        return $stmt->fetchAll();
     }
 }

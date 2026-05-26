@@ -16,12 +16,20 @@
                 <div class="col-md-12">
                     <label for="trajet_id" class="form-label">Vos trajets actifs</label>
                     <select class="form-select" id="trajet_id" name="trajet_id" required>
-                        <option value="" disabled selected>Choisissez un trajet</option>
+                        <option value="" disabled selected>-- Sélectionnez un trajet --</option>
+
                         <?php foreach ($trajets ?? [] as $trajet): ?>
+                            <?php
+                            $date = (new DateTime($trajet['date_depart']))->format('d/m/Y');
+                            $heure = (new DateTime($trajet['heure_depart']))->format('H:i');
+                            ?>
                             <option value="<?= $trajet['id'] ?>">
-                                <?= htmlspecialchars($trajet['nom_ville_depart']) ?> - <?= htmlspecialchars($trajet['nom_ville_arrivee']) ?> le <?= $trajet['date_depart'] ?> à <?= $trajet['heure_depart'] ?>
+                                <?= htmlspecialchars($trajet['nom_ville_depart']) ?> -
+                                <?= htmlspecialchars($trajet['nom_ville_arrivee']) ?>
+                                le <?= $date ?> à <?= $heure ?>
                             </option>
                         <?php endforeach; ?>
+
                     </select>
                 </div>
 
@@ -29,8 +37,8 @@
                     <button type="submit" class="btn btn-primary">Voir les passagers</button>
                 </div>
             </form>
-        <?php endif; ?>
 
+        <?php endif; ?>
     </main>
 
     <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
