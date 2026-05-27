@@ -1,45 +1,43 @@
 <?php
-require_once ROOT . '/app/model/ModelUtilisateur.php';
+require_once ROOT . '/app/model/UserModel.php';
 
 class LoginController
 {
     public static function login($args = [])
     {
-        $errors = '';
+        $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $login = $_POST['login_utilisateur'] ?? '';
-            $password = $_POST['password_utilisateur'] ?? '';
+            $login = $_POST['login'] ?? '';
+            $password = $_POST['password'] ?? '';
 
             try {
-                $utilisateur = ModelUtilisateur::verifierCredentials($login, $password);
+                $user = UserModel::verifyCredentials($login, $password);
 
-                if ($utilisateur) {
-                    $_SESSION['id_utilisateur'] = $utilisateur['id'];
-                    $_SESSION['nom_utilisateur'] = $utilisateur['nom'];
-                    $_SESSION['prenom_utilisateur'] = $utilisateur['prenom'];
-                    $_SESSION['role_utilisateur'] = $utilisateur['role'];
-                    $_SESSION['solde_utilisateur'] = $utilisateur['solde'];
+                if ($user) {
+                    $_SESSION['user_id']    = $user->getId();
+                    $_SESSION['last_name']  = $user->getLastName();
+                    $_SESSION['first_name'] = $user->getFirstName();
+                    $_SESSION['user_role']  = $user->getRole();
+                    $_SESSION['balance']    = $user->getBalance();
 
-                    header('Location: index.php?controller=accueil&action=home');
+                    header('Location: index.php?controller=home&action=home');
                     exit();
                 } else {
-                    $errors = 'Identifiant ou mot de passe incorrect.';
+                    $errors[] = 'Identifiant ou mot de passe incorrect.';
                 }
             } catch (Exception $e) {
-                $errors = $e->getMessage();
+                $errors[] = $e->getMessage();
             }
         }
 
-        require ROOT . '/app/view/connexion/viewLogin.php';
+        require ROOT . '/app/view/login/viewLogin.php';
     }
-
 
     public static function logout($args = [])
     {
         session_destroy();
-
-        header('Location: index.php?controller=accueil&action=home');
+        header('Location: index.php?controller=home&action=home');
         exit();
     }
 }

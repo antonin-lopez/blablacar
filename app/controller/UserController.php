@@ -1,57 +1,55 @@
 <?php
-require_once ROOT . '/app/model/ModelUtilisateur.php';
+require_once ROOT . '/app/model/UserModel.php';
 
 class UserController
 {
-    public static function readAll($args)
+    public static function index($args)
     {
-        if ($_SESSION['role_utilisateur'] !== 'administrateur') {
-            header('Location: index.php?controller=accueil&action=home');
+        if ($_SESSION['user_role'] !== 'admin') {
+            header('Location: index.php?controller=home&action=home');
             exit();
         }
 
-        $utilisateurs = ModelUtilisateur::readAll();
+        $users = UserModel::readAll();
 
-        require_once ROOT . '/app/view/utilisateur/viewAll.php';
+        require_once ROOT . '/app/view/user/viewAll.php';
     }
-
 
     public static function create($args)
     {
-        if ($_SESSION['role_utilisateur'] !== 'administrateur') {
-            header('Location: index.php?controller=accueil&action=home');
+        if ($_SESSION['user_role'] !== 'admin') {
+            header('Location: index.php?controller=home&action=home');
             exit();
         }
 
-        $errors = '';
-
-        $roleNouvelUtilisateur = $_POST['role_nouvel_utilisateur'] ?? $_GET['role_nouvel_utilisateur'] ?? 'passager';
+        $errors = [];
+        $roleNewUser = $_POST['role'] ?? $_GET['role'] ?? 'passenger';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nomNouvelUtilisateur    = $_POST['nom_nouvel_utilisateur'] ?? '';
-            $prenomNouvelUtilisateur = $_POST['prenom_nouvel_utilisateur'] ?? '';
-            $mdpNouvelUtilisateur    = $_POST['mdp_nouvel_utilisateur'] ?? '';
-            $soldeNouvelUtilisateur  = $_POST['solde_nouvel_utilisateur'] ?? 0;
+            $lastName  = $_POST['last_name'] ?? '';
+            $firstName = $_POST['first_name'] ?? '';
+            $password  = $_POST['password'] ?? 'secret';
+            $balance   = $_POST['balance'] ?? 0;
 
-            $loginNouvelUtilisateur = $nomNouvelUtilisateur . $prenomNouvelUtilisateur;
+            $login = $lastName . $firstName;
 
-            $nouvelUtilisateur = ModelUtilisateur::insert(
-                $nomNouvelUtilisateur,
-                $prenomNouvelUtilisateur,
-                $loginNouvelUtilisateur,
-                $mdpNouvelUtilisateur,
-                $roleNouvelUtilisateur,
-                $soldeNouvelUtilisateur
+            $success = UserModel::insert(
+                $lastName,
+                $firstName,
+                $login,
+                $password,
+                $roleNewUser,
+                $balance
             );
 
-            if ($nouvelUtilisateur) {
-                require_once ROOT . '/app/view/utilisateur/viewInserted.php';
+            if ($success) {
+                require_once ROOT . '/app/view/user/viewSuccess.php';
                 exit();
             } else {
-                $errors = "Erreur lors de la création de l'utilisateur.";
+                $errors[] = "Erreur lors de la création de l'utilisateur.";
             }
         }
 
-        require_once ROOT . '/app/view/utilisateur/viewInsert.php';
+        require_once ROOT . '/app/view/user/viewCreate.php';
     }
 }
