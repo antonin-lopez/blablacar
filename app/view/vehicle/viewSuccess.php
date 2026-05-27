@@ -1,35 +1,36 @@
-<?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
+<?php /** @var string $brand */ ?>
+<?php /** @var string $model */ ?>
+<?php /** @var string $year */ ?>
+<?php /** @var string $licensePlate */ ?>
+<?php /** @var string $ownerFullName */ ?>
+
+<?php require ROOT . '/app/view/partials/header.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
+    <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
-    <main class="container my-5">
-        <?php if (isset($results) && !empty($results)): 
-            require_once ROOT . '/app/model/ModelUtilisateur.php';
-            $conducteurs = ModelUtilisateur::readConducteurs();
-            $nomProprietaire = '';
-            foreach ($conducteurs as $conducteur) {
-                if ($conducteur['id'] == $_GET['proprietaire_id']) {
-                    $nomProprietaire = $conducteur['prenom'] . ' ' . $conducteur['nom'];
-                    break;
-                }
-            }
-            
-            echo "<h3>Le nouveau véhicule a été ajouté</h3>";
-            echo "<ul>";
-            echo "<li>ID du véhicule = " . htmlspecialchars($results) . "</li>";
-            echo "<li>Marque = " . htmlspecialchars($_GET['marque']) . "</li>";
-            echo "<li>Modèle = " . htmlspecialchars($_GET['modele']) . "</li>";
-            echo "<li>Année = " . htmlspecialchars($_GET['annee']) . "</li>";
-            echo "<li>Immatriculation = " . htmlspecialchars($_GET['immatriculation']) . "</li>";
-            echo "<li>Propriétaire = " . htmlspecialchars($nomProprietaire) . "</li>";
-            echo "</ul>";
-        else:
-            echo "<h3>Problème d'insertion du véhicule</h3>";
-        endif; ?>
+    <main class="container mt-5 d-flex flex-column gap-4">
+        <div class="alert alert-success">
+            Le nouveau véhicule a été ajouté avec succès !
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Récapitulatif des informations du véhicule
+            </div>
+            <div class="card-body p-2">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Marque :</strong> <?= htmlspecialchars($brand) ?></li>
+                    <li class="list-group-item"><strong>Modèle :</strong> <?= htmlspecialchars($model) ?></li>
+                    <li class="list-group-item"><strong>Année :</strong> <?= htmlspecialchars($year) ?></li>
+                    <li class="list-group-item"><strong>Immatriculation :</strong> <?= htmlspecialchars($licensePlate) ?></li>
+                    <li class="list-group-item"><strong>Propriétaire :</strong> <?= htmlspecialchars($ownerFullName) ?></li>
+                </ul>
+            </div>
+        </div>
     </main>
 
-    <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
+    <?php require ROOT . '/app/view/partials/footer.html'; ?>
 </body>
 
 </html>

@@ -1,25 +1,23 @@
 <?php
 require_once ROOT . '/app/model/Model.php';
+require_once ROOT . '/app/model/Vehicle.php';
 
 class VehicleModel
 {
-    public static function readByProprietaireId($proprietaireId)
+    public static function readByOwnerId(int $ownerId): array
     {
         $db = Model::getInstance();
-
-        $sql = "SELECT * FROM vehicule WHERE proprietaire_id = :proprietaire_id";
+        $sql = "SELECT * FROM vehicule WHERE proprietaire_id = :owner_id";
 
         $stmt = $db->prepare($sql);
-        $stmt->execute(['proprietaire_id' => $proprietaireId]);
+        $stmt->execute(['owner_id' => $ownerId]);
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Vehicle');
     }
 
-    
-    public static function readAll()
+    public static function readAll(): array
     {
         $db = Model::getInstance();
-
         $sql = "SELECT v.*, u.nom, u.prenom 
                 FROM vehicule v 
                 JOIN utilisateur u ON v.proprietaire_id = u.id";
@@ -27,25 +25,22 @@ class VehicleModel
         $stmt = $db->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Vehicle');
     }
 
-
-    public static function insert($marque, $modele, $annee, $immatriculation, $proprietaireId)
+    public static function insert(string $brand, string $model, int $year, string $licensePlate, int $ownerId): bool
     {
         $db = Model::getInstance();
-
         $sql = "INSERT INTO vehicule (id, marque, modele, annee, immatriculation, proprietaire_id)
-                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM vehicule v2), :marque, :modele, :annee, :immatriculation, :proprietaire_id)";
+                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM vehicule v2), :brand, :model, :year, :license_plate, :owner_id)";
 
         $stmt = $db->prepare($sql);
-
         return $stmt->execute([
-            'marque'          => $marque,
-            'modele'          => $modele,
-            'annee'           => $annee,
-            'immatriculation' => $immatriculation,
-            'proprietaire_id' => $proprietaireId
+            'brand'         => $brand,
+            'model'         => $model,
+            'year'          => $year,
+            'license_plate' => $licensePlate,
+            'owner_id'      => $ownerId
         ]);
     }
 }

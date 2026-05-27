@@ -1,16 +1,17 @@
-<?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
+<?php require ROOT . '/app/view/partials/header.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
+    <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
-        <h1>Véhicules</h1>
+        <h1>
+            <?= $_SESSION['user_role'] === 'admin' ? "Liste de tous les véhicules" : "Mes véhicules" ?>
+        </h1>
 
-        <?php if (empty($vehicules)): ?>
+        <?php if (empty($vehicles)): ?>
             <div class="alert alert-info">
-                Vous n'avez pas de véhicule enregistré.
+                Aucun véhicule enregistré.
             </div>
-
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -20,25 +21,30 @@
                             <th>Modèle</th>
                             <th>Année</th>
                             <th>Immatriculation</th>
+                            <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                                <th>Propriétaire</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($vehicules as $vehicule): ?>
+                        <?php foreach ($vehicles as $vehicle): ?>
                             <tr>
-                                <td><?= htmlspecialchars($vehicule['marque']) ?></td>
-                                <td><?= htmlspecialchars($vehicule['modele']) ?></td>
-                                <td><?= htmlspecialchars($vehicule['annee']) ?></td>
-                                <td><?= htmlspecialchars($vehicule['immatriculation']) ?></td>
+                                <td><?= htmlspecialchars($vehicle->getBrand()) ?></td>
+                                <td><?= htmlspecialchars($vehicle->getModel()) ?></td>
+                                <td><?= htmlspecialchars($vehicle->getYear()) ?></td>
+                                <td><?= htmlspecialchars($vehicle->getLicensePlate()) ?></td>
+                                <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                                    <td><?= htmlspecialchars($vehicle->getOwnerFullName()) ?></td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         <?php endif; ?>
-
     </main>
 
-    <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
+    <?php require ROOT . '/app/view/partials/footer.html'; ?>
 </body>
 
 </html>
