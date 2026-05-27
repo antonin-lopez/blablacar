@@ -1,7 +1,7 @@
 <?php
 require_once ROOT . '/app/model/Model.php';
 
-class ModelReservation
+class ReservationModel
 {
     public static function readByPassagerId($passagerId)
     {

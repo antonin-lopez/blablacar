@@ -2,27 +2,27 @@
 
 class Model
 {
-    private static $_instance = null;
+    private static ?PDO $_database = null;
 
     private function __construct() {}
 
-    public static function getInstance()
+    public static function getInstance(): PDO
     {
-        if (self::$_instance === null) {
+        if (self::$_database === null) {
             require_once ROOT . '/app/config/config.php';
 
-            $options = array(
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            );
+            $options = [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ];
 
             try {
-                self::$_instance = new PDO($dsn, $username, $password, $options);
+                self::$_database = new PDO($dsn, $username, $password, $options);
             } catch (PDOException $e) {
-                throw new Exception($e->getMessage());
+                throw new Exception("Database Connection Error: " . $e->getMessage());
             }
         }
 
-        return self::$_instance;
+        return self::$_database;
     }
 }

@@ -2,7 +2,7 @@
 require_once ROOT . '/app/model/ModelVehicule.php';
 require_once ROOT . '/app/model/ModelUtilisateur.php';
 
-class ControllerVehicule
+class VehicleController
 {
     public static function readMyVehicles($args)
     {

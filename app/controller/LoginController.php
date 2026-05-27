@@ -1,7 +1,7 @@
 <?php
 require_once ROOT . '/app/model/ModelUtilisateur.php';
 
-class ControllerConnexion
+class LoginController
 {
     public static function login($args = [])
     {

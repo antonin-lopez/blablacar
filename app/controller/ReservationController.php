@@ -4,7 +4,7 @@ require_once ROOT . '/app/model/ModelTrajet.php';
 require_once ROOT . '/app/model/ModelVille.php';
 require_once ROOT . '/app/model/ModelVehicule.php';
 
-class ControllerReservation
+class ReservationController
 {
     public static function readMyReservations($args)
     {

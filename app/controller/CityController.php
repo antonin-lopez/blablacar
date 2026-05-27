@@ -1,7 +1,7 @@
 <?php
 require_once ROOT . '/app/model/ModelVille.php';
 
-class ControllerVille
+class CityController
 {
     public static function readAll($args)
     {

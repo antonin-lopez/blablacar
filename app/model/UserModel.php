@@ -1,7 +1,7 @@
 <?php
 require_once ROOT . '/app/model/Model.php';
 
-class ModelUtilisateur
+class UserModel
 {
     public static function verifierCredentials($login, $password)
     {

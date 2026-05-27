@@ -1,7 +1,7 @@
 <?php
 require_once ROOT . '/app/model/ModelUtilisateur.php';
 
-class ControllerUtilisateur
+class UserController
 {
     public static function readAll($args)
     {

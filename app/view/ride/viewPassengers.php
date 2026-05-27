@@ -1,17 +1,17 @@
-<?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
+<?php require ROOT . '/app/view/partials/header.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
+    <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
         <div class="d-flex justify-content-between align-items-center">
             <h1>Liste des passagers</h1>
-            <a href="index.php?controller=trajet&action=selectActiveTrajetForPassengers" class="btn btn-outline-secondary">
+            <a href="index.php?controller=ride&action=activeRides&view=passengers" class="btn btn-outline-secondary">
                 Choisir un autre trajet
             </a>
         </div>
 
-        <?php if (!empty($trajet)): ?>
+        <?php if (!empty($ride)): ?>
             <div class="card">
                 <div class="card-header">
                     Détails du trajet sélectionné
@@ -20,25 +20,25 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <strong>Itinéraire :</strong>
-                            <?= htmlspecialchars($trajet['nom_ville_depart']) ?> - <?= htmlspecialchars($trajet['nom_ville_arrivee']) ?>
+                            <?= htmlspecialchars($ride->getDepartureCity()) ?> - <?= htmlspecialchars($ride->getArrivalCity()) ?>
                         </li>
                         <li class="list-group-item">
                             <strong>Départ :</strong>
                             <?php
-                            $date = new DateTime($trajet['date_depart'] . ' ' . $trajet['heure_depart']);
+                            $date = new DateTime($ride->getDepartureDate() . ' ' . $ride->getDepartureTime());
                             echo htmlspecialchars($date->format('d/m/Y à H:i'));
                             ?>
                         </li>
                         <li class="list-group-item">
                             <strong>Prix par place :</strong>
-                            <?= htmlspecialchars($trajet['prix']) ?> €
+                            <?= htmlspecialchars(number_format($ride->getPrice(), 2)) ?> €
                         </li>
                     </ul>
                 </div>
             </div>
         <?php endif; ?>
 
-        <?php if (empty($passagers)): ?>
+        <?php if (empty($passengers)): ?>
             <div class="alert alert-info">
                 Aucun passager n'a encore réservé de place pour ce trajet.
             </div>
@@ -52,10 +52,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($passagers ?? [] as $passager): ?>
+                        <?php foreach ($passengers ?? [] as $passenger): ?>
                             <tr>
-                                <td><?= htmlspecialchars($passager['nom']) ?></td>
-                                <td><?= htmlspecialchars($passager['prenom']) ?></td>
+                                <td><?= htmlspecialchars($passenger['nom']) ?></td>
+                                <td><?= htmlspecialchars($passenger['prenom']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -65,7 +65,7 @@
 
     </main>
 
-    <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
+    <?php require ROOT . '/app/view/partials/footer.html'; ?>
 </body>
 
 </html>
