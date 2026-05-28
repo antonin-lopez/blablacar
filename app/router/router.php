@@ -1,6 +1,6 @@
 <?php
-$controllerName = $_GET['controller'] ?? 'accueil';
-$controllerClass = 'Controller' . ucfirst($controllerName);
+$controllerName = $_GET['controller'] ?? 'home';
+$controllerClass = ucfirst($controllerName) . 'Controller';
 $controllerFile = 'app/controller/' . $controllerClass . '.php';
 
 $action = $_GET['action'] ?? 'home';
@@ -19,6 +19,6 @@ if (file_exists($controllerFile)) {
 
 function chargerAccueil()
 {
-    require_once 'app/controller/ControllerAccueil.php';
-    ControllerAccueil::home($_GET);
+    require_once 'app/controller/HomeController.php';
+    HomeController::home($_GET);
 }

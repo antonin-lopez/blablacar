@@ -1,49 +1,50 @@
 <?php
-require_once ROOT . '/app/model/ModelReservation.php';
-require_once ROOT . '/app/model/ModelTrajet.php';
-require_once ROOT . '/app/model/ModelVille.php';
-require_once ROOT . '/app/model/ModelVehicule.php';
+require_once ROOT . '/app/model/ReservationModel.php';
+require_once ROOT . '/app/model/RideModel.php';
 
 class ReservationController
 {
-    public static function readMyReservations($args)
+    public static function index($args)
     {
-        if ($_SESSION['role_utilisateur'] !== 'passager') {
-            header('Location: index.php?controller=accueil&action=home');
+        if ($_SESSION['user_role'] !== 'passager') {
+            header('Location: index.php?controller=home&action=home');
             exit();
         }
 
-        $idUtilisateur = $_SESSION['id_utilisateur'];
-        $reservations = ModelReservation::readByPassagerId($idUtilisateur);
+        $passengerId = $_SESSION['user_id'];
+        $reservations = ReservationModel::readByPassengerId($passengerId);
 
         require_once ROOT . '/app/view/reservation/viewAll.php';
     }
 
-
     public static function create($args)
     {
-        if ($_SESSION['role_utilisateur'] !== 'passager') {
-            header('Location: index.php?controller=accueil&action=home');
+        if ($_SESSION['user_role'] !== 'passager') {
+            header('Location: index.php?controller=home&action=home');
             exit();
         }
 
-        $errors = '';
-        $idPassager = $_SESSION['id_utilisateur'];
+        $errors = [];
+        $passengerId = $_SESSION['user_id'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $trajetId = $_POST['trajet_id'] ?? '';
+            $rideId = $_POST['ride_id'] ?? '';
 
-            if ($trajetId) {
-                $succes = ModelReservation::insert($trajetId, $idPassager);
-                if ($succes) {
-                    header('Location: index.php?controller=reservation&action=readMyReservations');
+            if ($rideId) {
+                $success = ReservationModel::insert((int)$rideId, $passengerId);
+                if ($success) {
+                    header('Location: index.php?controller=reservation&action=index');
                     exit();
+                } else {
+                    $errors[] = "Erreur lors de l'enregistrement de la réservation.";
                 }
+            } else {
+                $errors[] = "Veuillez sélectionner un trajet valide.";
             }
         }
 
-        $trajets = ModelTrajet::readAllActiveExcludingPassenger($idPassager);
+        $rides = RideModel::readAllActiveExcludingPassenger($passengerId);
 
-        require_once ROOT . '/app/view/reservation/viewInsert.php';
+        require_once ROOT . '/app/view/reservation/viewCreate.php';
     }
 }

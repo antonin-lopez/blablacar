@@ -18,13 +18,13 @@ $balance   = $_SESSION['balance'] ?? 0;
             <ul class="navbar-nav me-auto">
 
                 <?php if ($userId >= 0): ?>
-                    <?php if ($userRole === 'admin'): ?>
+                    <?php if ($userRole === 'administrateur'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Administrateur</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="index.php?controller=user&action=index">Liste des utilisateurs</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=user&action=create&role=driver">Ajout d'un conducteur</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=user&action=create&role=passenger">Ajout d'un passager</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=user&action=create&role=conducteur">Ajout d'un conducteur</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=user&action=create&role=passager">Ajout d'un passager</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -38,7 +38,7 @@ $balance   = $_SESSION['balance'] ?? 0;
                             </ul>
                         </li>
 
-                    <?php elseif ($userRole === 'driver'): ?>
+                    <?php elseif ($userRole === 'conducteur'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Conducteur</a>
                             <ul class="dropdown-menu">
@@ -56,7 +56,7 @@ $balance   = $_SESSION['balance'] ?? 0;
                             </ul>
                         </li>
 
-                    <?php elseif ($userRole === 'passenger'): ?>
+                    <?php elseif ($userRole === 'passager'): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Passager</a>
                             <ul class="dropdown-menu">

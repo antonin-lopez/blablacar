@@ -34,13 +34,7 @@
                                 <td><?= htmlspecialchars($ride->getArrivalCity()) ?></td>
                                 <td><?= htmlspecialchars($date->format('d/m/Y')) ?></td>
                                 <td><?= htmlspecialchars($time->format('H:i')) ?></td>
-                                <td>
-                                    <?php if ($ride->getStatus() === 'actif'): ?>
-                                        <span class="badge bg-success">Actif</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Passif</span>
-                                    <?php endif; ?>
-                                </td>
+                                <td><?= htmlspecialchars($ride->getStatus()) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

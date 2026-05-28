@@ -62,7 +62,7 @@
             <div class="col-md-4">
                 <label for="price" class="form-label">Prix</label>
                 <div class="input-group">
-                    <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" placeholder="0.00" required>
+                    <input type="number" class="form-control" id="price" name="price" min="0" step="1" placeholder="0.00" required>
                     <span class="input-group-text">€</span>
                 </div>
             </div>

@@ -1,42 +1,36 @@
 <?php
 require_once ROOT . '/app/model/Model.php';
+require_once ROOT . '/app/model/City.php';
 
 class CityModel
 {
-    public static function readAll()
+    public static function readAll(): array
     {
         $db = Model::getInstance();
-
         $sql = "SELECT * FROM ville ORDER BY nom ASC";
-
         $stmt = $db->query($sql);
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'City');
     }
 
-
-    public static function existe($nom)
+    public static function exists(string $name): bool
     {
         $db = Model::getInstance();
-
-        $sql = "SELECT COUNT(*) FROM ville WHERE nom = :nom";
+        $sql = "SELECT COUNT(*) FROM ville WHERE nom = :name";
 
         $stmt = $db->prepare($sql);
-        $stmt->execute(['nom' => $nom]);
+        $stmt->execute(['name' => $name]);
 
         return (int)$stmt->fetchColumn() > 0;
     }
 
-    
-    public static function insert($nom)
+    public static function insert(string $name): bool
     {
         $db = Model::getInstance();
-
         $sql = "INSERT INTO ville (id, nom)
-                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM ville v2), :nom)";
+                VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM ville v2), :name)";
 
         $stmt = $db->prepare($sql);
-
-        return $stmt->execute(['nom' => $nom]);
+        return $stmt->execute(['name' => $name]);
     }
 }

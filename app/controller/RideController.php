@@ -7,7 +7,7 @@ class RideController
 {
     public static function index($args)
     {
-        if ($_SESSION['user_role'] !== 'driver') {
+        if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');
             exit();
         }
@@ -20,7 +20,7 @@ class RideController
 
     public static function create($args)
     {
-        if ($_SESSION['user_role'] !== 'driver') {
+        if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');
             exit();
         }
@@ -66,7 +66,7 @@ class RideController
 
     public static function activeRides($args)
     {
-        if ($_SESSION['user_role'] !== 'driver') {
+        if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');
             exit();
         }

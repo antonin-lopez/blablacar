@@ -1,13 +1,14 @@
 <?php
 require_once ROOT . '/app/model/Model.php';
+require_once ROOT . '/app/model/Reservation.php';
 
 class ReservationModel
 {
-    public static function readByPassagerId($passagerId)
+    public static function readByPassengerId(int $passengerId): array
     {
         $db = Model::getInstance();
 
-        $sql = "SELECT r.id AS reservation_id,
+        $sql = "SELECT r.*,
                        t.date_depart,
                        t.heure_depart,
                        u.nom AS nom_conducteur, 
@@ -23,30 +24,27 @@ class ReservationModel
                 JOIN ville v_dep ON t.ville_depart = v_dep.id
                 JOIN ville v_arr ON t.ville_arrivee = v_arr.id
                 JOIN vehicule v ON t.vehicule_id = v.id
-                WHERE r.passager_id = :passager_id";
+                WHERE r.passager_id = :passenger_id";
 
         $stmt = $db->prepare($sql);
+        $stmt->execute(['passenger_id' => $passengerId]);
 
-        $stmt->execute(['passager_id' => $passagerId]);
-
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Reservation');
     }
 
-
-    public static function insert($trajetId, $passagerId)
+    public static function insert(int $rideId, int $passengerId): bool
     {
         $db = Model::getInstance();
 
         $sql = "INSERT INTO reservation (id, trajet_id, passager_id)
                 VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM reservation r2), 
-                       :trajet_id, 
-                       :passager_id)";
+                       :ride_id, 
+                       :passenger_id)";
 
         $stmt = $db->prepare($sql);
-
         return $stmt->execute([
-            'trajet_id'   => $trajetId,
-            'passager_id' => $passagerId
+            'ride_id'      => $rideId,
+            'passenger_id' => $passengerId
         ]);
     }
 }

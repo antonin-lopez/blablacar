@@ -1,5 +1,9 @@
-<?php /** @var string $login */ ?>
+<?php /** @var string $newLastName */ ?>
+<?php /** @var string $newFirstName */ ?>
+<?php /** @var string $newLogin */ ?>
+<?php /** @var string $newPassword */ ?>
 <?php /** @var string $roleNewUser */ ?>
+<?php /** @var float $newBalance */ ?>
 
 <?php require ROOT . '/app/view/partials/header.html'; ?>
 
@@ -17,12 +21,12 @@
             </div>
             <div class="card-body p-2">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Nom :</strong> <?= htmlspecialchars($lastName) ?></li>
-                    <li class="list-group-item"><strong>Prénom :</strong> <?= htmlspecialchars($firstName) ?></li>
-                    <li class="list-group-item"><strong>Login généré :</strong> <?= htmlspecialchars($login) ?></li>
-                    <li class="list-group-item"><strong>Mot de passe :</strong> <?= htmlspecialchars($password) ?></li>
+                    <li class="list-group-item"><strong>Nom :</strong> <?= htmlspecialchars($newLastName) ?></li>
+                    <li class="list-group-item"><strong>Prénom :</strong> <?= htmlspecialchars($newFirstName) ?></li>
+                    <li class="list-group-item"><strong>Login généré :</strong> <?= htmlspecialchars($newLogin) ?></li>
+                    <li class="list-group-item"><strong>Mot de passe :</strong> <?= htmlspecialchars($newPassword) ?></li>
                     <li class="list-group-item"><strong>Rôle :</strong> <?= htmlspecialchars($roleNewUser) ?></li>
-                    <li class="list-group-item"><strong>Solde initial :</strong> <?= htmlspecialchars($balance) ?> €</li>
+                    <li class="list-group-item"><strong>Solde initial :</strong> <?= htmlspecialchars($newBalance) ?> €</li>
                 </ul>
             </div>
         </div>

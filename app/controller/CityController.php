@@ -1,42 +1,47 @@
 <?php
-require_once ROOT . '/app/model/ModelVille.php';
+require_once ROOT . '/app/model/CityModel.php';
 
 class CityController
 {
-    public static function readAll($args)
+    public static function index($args)
     {
-        $villes = ModelVille::readAll();
-        require_once ROOT . '/app/view/ville/viewAll.php';
+        if ($_SESSION['user_role'] !== 'administrateur') {
+            header('Location: index.php?controller=home&action=home');
+            exit();
+        }
+
+        $cities = CityModel::readAll();
+        require_once ROOT . '/app/view/city/viewAll.php';
     }
 
     public static function create($args)
     {
-        if ($_SESSION['role_utilisateur'] !== 'administrateur') {
-            header('Location: index.php?controller=accueil&action=home');
+        if ($_SESSION['user_role'] !== 'administrateur') {
+            header('Location: index.php?controller=home&action=home');
             exit();
         }
 
-        $errors = '';
+        $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nomNouvelleVille = $_POST['nom_nouvelle_ville'] ?? '';
+            $cityName = $_POST['name'] ?? '';
 
-            if (empty($nomNouvelleVille)) {
-                $errors = "Le nom de la ville ne peut pas être vide.";
-            } elseif (ModelVille::existe($nomNouvelleVille)) {
-                $errors = "Cette ville existe déjà.";
+            if (empty($cityName)) {
+                $errors[] = "Le nom de la ville ne peut pas être vide.";
+            } elseif (CityModel::exists($cityName)) {
+                $errors[] = "Cette ville existe déjà.";
             } else {
-                $result = ModelVille::insert($nomNouvelleVille);
+                $success = CityModel::insert($cityName);
 
-                if ($result) {
-                    header('Location: index.php?controller=ville&action=readAll');
+                if ($success) {
+                    require_once ROOT . '/app/view/city/viewSuccess.php';
                     exit();
                 } else {
-                    $errors = "Erreur lors de l'enregistrement de la ville.";
+                    $errors[] = "Erreur lors de l'enregistrement de la ville.";
                 }
             }
         }
 
-        require_once ROOT . '/app/view/ville/viewInsert.php';
+        require_once ROOT . '/app/view/city/viewCreate.php';
     }
 }

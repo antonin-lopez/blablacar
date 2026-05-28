@@ -1,4 +1,4 @@
-<?php /** @var string $roleNewUser */ ?>
+<?php /** @var float $roleNewUser */ ?>
 
 <?php require ROOT . '/app/view/partials/header.html'; ?>
 
@@ -6,7 +6,7 @@
     <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
-        <h1>Ajouter un <?= htmlspecialchars($roleNewUser === 'driver' ? 'conducteur' : 'passager') ?></h1>
+        <h1>Ajouter un <?= htmlspecialchars($roleNewUser === 'conducteur' ? 'conducteur' : 'passager') ?></h1>
 
         <?php if (!empty($errors)): ?>
             <div class='alert alert-danger'>
@@ -40,7 +40,7 @@
             <div class="col-md-12 mt-4 d-flex justify-content-end gap-2">
                 <button type="reset" class="btn btn-outline-secondary">Réinitialiser</button>
                 <button type="submit" class="btn btn-primary">
-                    Créer le <?= htmlspecialchars($roleNewUser === 'driver' ? 'conducteur' : 'passager') ?>
+                    Créer le <?= htmlspecialchars($roleNewUser === 'conducteur' ? 'conducteur' : 'passager') ?>
                 </button>
             </div>
         </form>

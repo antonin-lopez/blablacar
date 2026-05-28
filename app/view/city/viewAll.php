@@ -1,16 +1,15 @@
-<?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
+<?php require ROOT . '/app/view/partials/header.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
+    <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1>Affichage de toutes les villes</h1>
 
-        <?php if (empty($villes)): ?>
+        <?php if (empty($cities)): ?>
             <div class="alert alert-info">
                 Aucune ville trouvée dans la base de données.
             </div>
-
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -20,9 +19,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($villes as $ville): ?>
+                        <?php foreach ($cities as $city): ?>
                             <tr>
-                                <td><?= htmlspecialchars($ville['nom']) ?></td>
+                                <td><?= htmlspecialchars($city->getName()) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -31,7 +30,7 @@
         <?php endif; ?>
     </main>
 
-    <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
+    <?php require ROOT . '/app/view/partials/footer.html'; ?>
 </body>
 
 </html>

@@ -5,41 +5,39 @@ class UserController
 {
     public static function index($args)
     {
-        if ($_SESSION['user_role'] !== 'admin') {
+        if ($_SESSION['user_role'] !== 'administrateur') {
             header('Location: index.php?controller=home&action=home');
             exit();
         }
 
         $users = UserModel::readAll();
-
         require_once ROOT . '/app/view/user/viewAll.php';
     }
 
     public static function create($args)
     {
-        if ($_SESSION['user_role'] !== 'admin') {
+        if ($_SESSION['user_role'] !== 'administrateur') {
             header('Location: index.php?controller=home&action=home');
             exit();
         }
 
         $errors = [];
-        $roleNewUser = $_POST['role'] ?? $_GET['role'] ?? 'passenger';
+        $roleNewUser = $_POST['role'] ?? $_GET['role'] ?? 'passager';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $lastName  = $_POST['last_name'] ?? '';
-            $firstName = $_POST['first_name'] ?? '';
-            $password  = $_POST['password'] ?? 'secret';
-            $balance   = $_POST['balance'] ?? 0;
-
-            $login = $lastName . $firstName;
+            $newLastName  = $_POST['last_name'] ?? '';
+            $newFirstName = $_POST['first_name'] ?? '';
+            $newPassword  = $_POST['password'] ?? 'secret';
+            $newBalance   = $_POST['balance'] ?? 0;
+            $newLogin     = $newLastName . $newFirstName;
 
             $success = UserModel::insert(
-                $lastName,
-                $firstName,
-                $login,
-                $password,
+                $newLastName,
+                $newFirstName,
+                $newLogin,
+                $newPassword,
                 $roleNewUser,
-                $balance
+                $newBalance
             );
 
             if ($success) {

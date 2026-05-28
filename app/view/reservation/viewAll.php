@@ -1,7 +1,7 @@
-<?php require ROOT . '/app/view/fragment/fragmentHeader.html'; ?>
+<?php require ROOT . '/app/view/partials/header.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
-    <?php require ROOT . '/app/view/fragment/fragmentMenu.php'; ?>
+    <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1>Mes réservations</h1>
@@ -10,7 +10,6 @@
             <div class="alert alert-info">
                 Vous n'avez pas de réservation enregistrée.
             </div>
-
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -28,41 +27,32 @@
                     <tbody>
                         <?php foreach ($reservations as $reservation): ?>
                             <tr>
-                                <td><?= htmlspecialchars($reservation['ville_depart']) ?></td>
-
-                                <td><?= htmlspecialchars($reservation['ville_arrivee']) ?></td>
-
+                                <td><?= htmlspecialchars($reservation->getDepartureCity()) ?></td>
+                                <td><?= htmlspecialchars($reservation->getArrivalCity()) ?></td>
                                 <td>
                                     <?php
-                                    $date = new DateTime($reservation['date_depart']);
+                                    $date = new DateTime($reservation->getDepartureDate());
                                     echo htmlspecialchars($date->format('d/m/Y'));
                                     ?>
                                 </td>
-
                                 <td>
                                     <?php
-                                    $heure = new DateTime($reservation['heure_depart']);
-                                    echo htmlspecialchars($heure->format('H:i'));
+                                    $time = new DateTime($reservation->getDepartureTime());
+                                    echo htmlspecialchars($time->format('H:i'));
                                     ?>
                                 </td>
-
-                                <td><?= htmlspecialchars($reservation['prenom_conducteur']) . ' ' .
-                                        htmlspecialchars($reservation['nom_conducteur']) ?></td>
-
-                                <td><?= htmlspecialchars($reservation['marque_vehicule']) . ' ' .
-                                        htmlspecialchars($reservation['modele_vehicule']) ?></td>
-
-                                <td><?= htmlspecialchars($reservation['immatriculation']) ?></td>
+                                <td><?= htmlspecialchars($reservation->getDriverFullName()) ?></td>
+                                <td><?= htmlspecialchars($reservation->getVehicleFullName()) ?></td>
+                                <td><?= htmlspecialchars($reservation->getLicensePlate()) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         <?php endif; ?>
-
     </main>
 
-    <?php require ROOT . '/app/view/fragment/fragmentFooter.html'; ?>
+    <?php require ROOT . '/app/view/partials/footer.html'; ?>
 </body>
 
 </html>

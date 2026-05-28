@@ -36,7 +36,7 @@ class UserModel
     public static function readDrivers(): array
     {
         $db = Model::getInstance();
-        $sql = "SELECT * FROM utilisateur WHERE role = 'driver'";
+        $sql = "SELECT * FROM utilisateur WHERE role = 'conducteur'";
 
         $stmt = $db->prepare($sql);
         $stmt->execute();

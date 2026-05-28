@@ -9,9 +9,9 @@ class VehicleController
         $userRole = $_SESSION['user_role'] ?? '';
         $userId   = $_SESSION['user_id'] ?? null;
 
-        if ($userRole === 'admin') {
+        if ($userRole === 'administrateur') {
             $vehicles = VehicleModel::readAll();
-        } elseif ($userRole === 'driver') {
+        } elseif ($userRole === 'conducteur') {
             $vehicles = VehicleModel::readByOwnerId($userId);
         } else {
             header('Location: index.php?controller=home&action=home');
@@ -23,7 +23,7 @@ class VehicleController
 
     public static function create($args)
     {
-        if ($_SESSION['user_role'] !== 'admin') {
+        if ($_SESSION['user_role'] !== 'administrateur') {
             header('Location: index.php?controller=home&action=home');
             exit();
         }
@@ -61,7 +61,6 @@ class VehicleController
         }
 
         $drivers = UserModel::readDrivers();
-
         require_once ROOT . '/app/view/vehicle/viewCreate.php';
     }
 }
