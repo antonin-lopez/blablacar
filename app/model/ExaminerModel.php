@@ -82,7 +82,7 @@ class ExaminerModel
         
         for ($i = 0; $i < 10; $i++) {
             $maxAttempts = 30;
-            $added = false;
+            $added = false; 
             
             for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
                 $randomPassenger = $passengers[array_rand($passengers)];
