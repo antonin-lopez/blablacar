@@ -3,9 +3,9 @@ require_once ROOT . '/app/model/ExaminerModel.php';
 
 class ExaminerController
 {
-    public static function showSuperglobals()
+    public static function showSuperglobals($args = [])
     {
-        require 'app/view/examiner/viewSuperglobals.php';
+        require_once ROOT . '/app/view/examiner/viewSuperglobals.php';
     }
 
     public static function seedReservations($args = [])
@@ -15,7 +15,19 @@ class ExaminerController
             exit();
         }
 
-        $results = ExaminerModel::addTenRandomReservations();
+        $reservations = ExaminerModel::addTenRandomReservations();
+
+        if ($reservations === false) {
+            header('Location: index.php?controller=home&action=home');
+            exit();
+        }
+
+        $successCount = 0;
+        foreach ($reservations as $res) {
+            if ($res['success']) {
+                $successCount++;
+            }
+        }
 
         require_once ROOT . '/app/view/examiner/viewSuccess.php';
     }

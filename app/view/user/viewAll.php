@@ -3,7 +3,7 @@
 <body class="d-flex flex-column min-vh-100">
     <?php require ROOT . '/app/view/partials/navbar.php'; ?>
 
-    <main class="container mt-5 d-flex flex-column gap-4">
+    <main class="container my-5 d-flex flex-column gap-4">
         <h1>Affichage de tous les utilisateurs</h1>
 
         <?php if (empty($users)): ?>
@@ -11,6 +11,7 @@
                 Aucun utilisateur trouvé dans la base de données.
             </div>
         <?php else: ?>
+
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead>

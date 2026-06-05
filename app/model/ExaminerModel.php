@@ -1,11 +1,10 @@
 <?php
 require_once ROOT . '/app/model/Model.php';
-require_once ROOT . '/app/model/Reservation.php';
-require_once ROOT . '/app/model/Ride.php';
 require_once ROOT . '/app/model/User.php';
+require_once ROOT . '/app/model/Ride.php';
 require_once ROOT . '/app/model/ReservationModel.php';
 
-class ExaminerModel
+class ExaminerModel extends Model
 {
     public static function getAllPassengers(): array
     {
@@ -58,68 +57,42 @@ class ExaminerModel
         return $stmt->fetchColumn() > 0;
     }
 
-    public static function addTenRandomReservations(): array
+    public static function addTenRandomReservations(): array|false
     {
-        $results = [
-            'reservations' => []
-        ];
-
         $passengers = self::getAllPassengers();
-        if (empty($passengers)) {
-            return [
-                'error' => 'Aucun passager trouvé dans la base de données',
-                'reservations' => []
-            ];
+        $activeRides = self::getActiveRides();
+
+        if (empty($passengers) || empty($activeRides)) {
+            return false;
         }
 
-        $activeRides = self::getActiveRides();
-        if (empty($activeRides)) {
-            return [
-                'error' => 'Aucun trajet actif trouvé dans la base de données',
-                'reservations' => []
-            ];
-        }
+        $reservations = [];
 
         for ($i = 0; $i < 10; $i++) {
-            $maxAttempts = 30;
-            $added = false;
+            $randomPassenger = $passengers[array_rand($passengers)];
+            $randomRide = $activeRides[array_rand($activeRides)];
 
-            for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
-                $randomPassenger = $passengers[array_rand($passengers)];
-                $randomRide = $activeRides[array_rand($activeRides)];
+            if (!self::reservationExists($randomRide->getId(), $randomPassenger->getId())) {
+                $success = ReservationModel::insert($randomRide->getId(), $randomPassenger->getId());
 
-                if (!self::reservationExists($randomRide->getId(), $randomPassenger->getId())) {
-                    $success = ReservationModel::insert($randomRide->getId(), $randomPassenger->getId());
-
-                    if ($success) {
-                        $results['reservations'][] = [
-                            'numero' => $i + 1,
-                            'success' => true,
-                            'passenger_nom' => $randomPassenger->getLastName(),
-                            'passenger_prenom' => $randomPassenger->getFirstName(),
-                            'passenger_id' => $randomPassenger->getId(),
-                            'ride_depart' => $randomRide->getDepartureCity(),
-                            'ride_arrivee' => $randomRide->getArrivalCity(),
-                            'ride_id' => $randomRide->getId(),
-                            'driver_nom' => $randomRide->getDriverFullName(),
-                            'date_depart' => $randomRide->getDepartureDate(),
-                            'heure_depart' => $randomRide->getDepartureTime()
-                        ];
-                        $added = true;
-                        break;
-                    }
+                if ($success) {
+                    $reservations[] = [
+                        'numero' => $i + 1,
+                        'success' => true,
+                        'passenger' => $randomPassenger,
+                        'ride' => $randomRide
+                    ];
+                    continue;
                 }
             }
 
-            if (!$added) {
-                $results['reservations'][] = [
-                    'numero' => $i + 1,
-                    'success' => false,
-                    'message' => 'Impossible d\'ajouter cette réservation après ' . $maxAttempts . ' tentatives'
-                ];
-            }
+            $reservations[] = [
+                'numero' => $i + 1,
+                'success' => false,
+                'message' => "Ce trajet est déjà réservé par ce passager."
+            ];
         }
 
-        return $results;
+        return $reservations;
     }
 }
