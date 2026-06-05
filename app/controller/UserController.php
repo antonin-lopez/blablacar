@@ -3,7 +3,7 @@ require_once ROOT . '/app/model/UserModel.php';
 
 class UserController
 {
-    public static function index($args)
+    public static function index($args = [])
     {
         if ($_SESSION['user_role'] !== 'administrateur') {
             header('Location: index.php?controller=home&action=home');
@@ -14,7 +14,7 @@ class UserController
         require_once ROOT . '/app/view/user/viewAll.php';
     }
 
-    public static function create($args)
+    public static function create($args = [])
     {
         if ($_SESSION['user_role'] !== 'administrateur') {
             header('Location: index.php?controller=home&action=home');

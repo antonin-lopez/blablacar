@@ -1,11 +1,11 @@
 <?php
 class InnovationController {
-    public static function originalIdea() {
+    public static function originalIdea($args = []) {
         require 'app/view/innovation/viewIdea.php';
     }
 
-    public static function mvcImprovements() {
-        require 'app/view/innovation/viewInnovations.php';
+    public static function mvcImprovement($args = []) {
+        require 'app/view/innovation/viewImprovement.php';
     }
 }
 

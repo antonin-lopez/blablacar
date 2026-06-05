@@ -5,7 +5,7 @@ require_once ROOT . '/app/model/VehicleModel.php';
 
 class RideController
 {
-    public static function index($args)
+    public static function index($args = [])
     {
         if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');
@@ -18,7 +18,7 @@ class RideController
         require_once ROOT . '/app/view/ride/viewAll.php';
     }
 
-    public static function create($args)
+    public static function create($args = [])
     {
         if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');
@@ -64,7 +64,7 @@ class RideController
         require_once ROOT . '/app/view/ride/viewCreate.php';
     }
 
-    public static function activeRides($args)
+    public static function activeRides($args = [])
     {
         if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');

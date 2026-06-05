@@ -10,21 +10,21 @@ class ExaminerModel
     public static function getAllPassengers(): array
     {
         $db = Model::getInstance();
-        
+
         $sql = "SELECT id, nom, prenom, login 
                 FROM utilisateur 
                 WHERE role = 'passager'";
-        
+
         $stmt = $db->prepare($sql);
         $stmt->execute();
-        
+
         return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
     }
-    
+
     public static function getActiveRides(): array
     {
         $db = Model::getInstance();
-        
+
         $sql = "SELECT t.*, 
                        v_dep.nom AS nom_ville_depart, 
                        v_arr.nom AS nom_ville_arrivee,
@@ -35,35 +35,35 @@ class ExaminerModel
                 JOIN ville v_arr ON t.ville_arrivee = v_arr.id
                 JOIN utilisateur u ON t.conducteur_id = u.id
                 WHERE t.statut = 'actif'";
-        
+
         $stmt = $db->prepare($sql);
         $stmt->execute();
-        
+
         return $stmt->fetchAll(PDO::FETCH_CLASS, 'Ride');
     }
-    
+
     public static function reservationExists(int $rideId, int $passengerId): bool
     {
         $db = Model::getInstance();
-        
+
         $sql = "SELECT COUNT(*) FROM reservation 
                 WHERE trajet_id = :ride_id AND passager_id = :passenger_id";
-        
+
         $stmt = $db->prepare($sql);
         $stmt->execute([
             'ride_id' => $rideId,
             'passenger_id' => $passengerId
         ]);
-        
+
         return $stmt->fetchColumn() > 0;
     }
-    
+
     public static function addTenRandomReservations(): array
     {
         $results = [
             'reservations' => []
         ];
-        
+
         $passengers = self::getAllPassengers();
         if (empty($passengers)) {
             return [
@@ -71,7 +71,7 @@ class ExaminerModel
                 'reservations' => []
             ];
         }
-        
+
         $activeRides = self::getActiveRides();
         if (empty($activeRides)) {
             return [
@@ -79,18 +79,18 @@ class ExaminerModel
                 'reservations' => []
             ];
         }
-        
+
         for ($i = 0; $i < 10; $i++) {
             $maxAttempts = 30;
-            $added = false; 
-            
+            $added = false;
+
             for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
                 $randomPassenger = $passengers[array_rand($passengers)];
                 $randomRide = $activeRides[array_rand($activeRides)];
-                
+
                 if (!self::reservationExists($randomRide->getId(), $randomPassenger->getId())) {
                     $success = ReservationModel::insert($randomRide->getId(), $randomPassenger->getId());
-                    
+
                     if ($success) {
                         $results['reservations'][] = [
                             'numero' => $i + 1,
@@ -110,7 +110,7 @@ class ExaminerModel
                     }
                 }
             }
-            
+
             if (!$added) {
                 $results['reservations'][] = [
                     'numero' => $i + 1,
@@ -119,8 +119,7 @@ class ExaminerModel
                 ];
             }
         }
-        
+
         return $results;
     }
 }
-?>

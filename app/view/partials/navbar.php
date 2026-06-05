@@ -71,7 +71,7 @@ $balance   = $_SESSION['balance'] ?? 0;
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Innovations</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="index.php?controller=innovation&action=originalIdea">Idée originale</a></li>
-                        <li><a class="dropdown-item" href="index.php?controller=innovation&action=mvcImprovements">Amélioration du code MVC</a></li>
+                        <li><a class="dropdown-item" href="index.php?controller=innovation&action=mvcImprovement">Amélioration du code MVC</a></li>
                     </ul>
                 </li>
 

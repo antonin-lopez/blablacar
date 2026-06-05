@@ -7,20 +7,24 @@
 
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1>Ajout des réservations aléatoires</h1>
-        <?php if(isset($results['error'])): ?>
-            <div class="alert alert-sucess">
+
+        <?php if (isset($results['error'])): ?>
+            <div class="alert alert-danger">
                 <?= htmlspecialchars($results['error']) ?>
             </div>
         <?php else: ?>
-            <strong>Succès !</strong> <?= count(array_filter($results['reservations'], function($r) { return $r['success']; })) ?> réservation(s) ajoutée(s) avec succès.
+
+            <strong>Succès !</strong> <?= count(array_filter($results['reservations'], function ($r) {
+                                            return $r['success'];
+                                        })) ?> réservation(s) ajoutée(s) avec succès.
             <div class="card">
                 <div class="card-header">
                     Détail des 10 réservations
                 </div>
                 <div class="card-body p-0">
                     <ul class="list-group">
-                        <?php foreach($results['reservations'] as $reservation): ?>
-                            <?php if($reservation['success']): ?>
+                        <?php foreach ($results['reservations'] as $reservation): ?>
+                            <?php if ($reservation['success']): ?>
                                 <li class="list-group-item">
                                     <strong>Réservation n°<?= $reservation['numero'] ?></strong><br>
                                     <strong>Passager :</strong> <?= htmlspecialchars($reservation['passenger_prenom']) ?> <?= htmlspecialchars($reservation['passenger_nom']) ?> (ID: <?= $reservation['passenger_id'] ?>)<br>

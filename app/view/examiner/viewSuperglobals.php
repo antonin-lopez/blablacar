@@ -6,7 +6,7 @@
     <main class="container mt-5 d-flex flex-column gap-4">
         <h1>Affichage des superglobales</h1>
 
-        <section>
+        <div>
             <h2>Session</h2>
             <?php if (empty($_SESSION)): ?>
                 <div class="alert alert-info">
@@ -32,9 +32,9 @@
                     </table>
                 </div>
             <?php endif; ?>
-        </section>
+        </div>
 
-        <section>
+        <div>
             <h2>Cookies</h2>
             <?php if (empty($_COOKIE)): ?>
                 <div class="alert alert-info">
@@ -60,7 +60,8 @@
                     </table>
                 </div>
             <?php endif; ?>
-        </section>
+        </div>
+
     </main>
 
     <?php require ROOT . '/app/view/partials/footer.html'; ?>

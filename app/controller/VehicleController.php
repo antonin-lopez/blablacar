@@ -4,7 +4,7 @@ require_once ROOT . '/app/model/UserModel.php';
 
 class VehicleController
 {
-    public static function index($args)
+    public static function index($args = [])
     {
         $userRole = $_SESSION['user_role'] ?? '';
         $userId   = $_SESSION['user_id'] ?? null;
@@ -21,7 +21,7 @@ class VehicleController
         require_once ROOT . '/app/view/vehicle/viewAll.php';
     }
 
-    public static function create($args)
+    public static function create($args = [])
     {
         if ($_SESSION['user_role'] !== 'administrateur') {
             header('Location: index.php?controller=home&action=home');

@@ -4,7 +4,7 @@ require_once ROOT . '/app/model/RideModel.php';
 
 class ReservationController
 {
-    public static function index($args)
+    public static function index($args = [])
     {
         if ($_SESSION['user_role'] !== 'passager') {
             header('Location: index.php?controller=home&action=home');
@@ -17,7 +17,7 @@ class ReservationController
         require_once ROOT . '/app/view/reservation/viewAll.php';
     }
 
-    public static function create($args)
+    public static function create($args = [])
     {
         if ($_SESSION['user_role'] !== 'passager') {
             header('Location: index.php?controller=home&action=home');
