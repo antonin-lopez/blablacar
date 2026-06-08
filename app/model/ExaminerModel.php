@@ -59,23 +59,31 @@ class ExaminerModel extends Model
 
     public static function addTenRandomReservations(): array|false
     {
+        // Chargement initial des entités de base requises pour la simulation
         $passengers = self::getAllPassengers();
         $activeRides = self::getActiveRides();
 
+        // CONDITIONS AUX LIMITES : Arrêt préventif si l'une des tables nécessaires est vide
         if (empty($passengers) || empty($activeRides)) {
             return false;
         }
 
         $reservations = [];
 
+        // ALGORITHME ITÉRATIF DE SIMULATION : Boucle configurée pour exécuter exactement 10 tentatives
         for ($i = 0; $i < 10; $i++) {
+            // SÉLECTION ALÉATOIRE : Utilisation de array_rand pour piocher un passager et un trajet de manière imprévisible
             $randomPassenger = $passengers[array_rand($passengers)];
             $randomRide = $activeRides[array_rand($activeRides)];
 
+            // COMPORTEMENT SÉCURISÉ (FILTRE D'UNICITÉ) : Appel à la méthode de vérification pour s'assurer
+            // que le passager n'a pas déjà réservé ce trajet spécifique auparavant.
             if (!self::reservationExists($randomRide->getId(), $randomPassenger->getId())) {
+                // Persistance de l'association aléatoire valide en Base de Données
                 $success = ReservationModel::insert($randomRide->getId(), $randomPassenger->getId());
 
                 if ($success) {
+                    // Tracabilité de la réussite de l'opération pour traitement par l'interface d'évaluation
                     $reservations[] = [
                         'numero' => $i + 1,
                         'success' => true,
@@ -86,6 +94,7 @@ class ExaminerModel extends Model
                 }
             }
 
+            // GESTION DE DOUBLON / ÉCHEC : Enregistrement de l'anomalie sans faire planter l'exécution globale de la boucle
             $reservations[] = [
                 'numero' => $i + 1,
                 'success' => false,
@@ -93,6 +102,7 @@ class ExaminerModel extends Model
             ];
         }
 
+        // Retour du journal d'exécution complet à destination de la Vue (View)
         return $reservations;
     }
 }
