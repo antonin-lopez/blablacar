@@ -51,8 +51,8 @@ $balance   = $_SESSION['balance'] ?? 0;
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="index.php?controller=ride&action=activeRides&view=passengers">Passagers de mes trajets</a></li>
-                                <li><a class="dropdown-item" href="index.php?controller=ride&action=activeRides&view=close">Clôturer un trajet</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=ride&action=passengers">Passagers de mes trajets</a></li>
+                                <li><a class="dropdown-item" href="index.php?controller=ride&action=close">Clôturer un trajet</a></li>
                             </ul>
                         </li>
 

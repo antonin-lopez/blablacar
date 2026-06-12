@@ -6,7 +6,7 @@
     <main class="container my-5 d-flex flex-column gap-4">
         <div class="d-flex justify-content-between align-items-center">
             <h1>Liste des passagers</h1>
-            <a href="index.php?controller=ride&action=activeRides&view=passengers" class="btn btn-outline-secondary">
+            <a href="index.php?controller=ride&action=passengers" class="btn btn-outline-secondary">
                 Choisir un autre trajet
             </a>
         </div>

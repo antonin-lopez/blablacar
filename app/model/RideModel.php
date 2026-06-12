@@ -96,13 +96,55 @@ class RideModel
         ]);
     }
 
-    public static function closeRide(int $rideId): bool
+    public static function closeRide(int $rideId, int $driverId): float
     {
         $db = Model::getInstance();
-        $sql = "UPDATE trajet SET statut = 'passif' WHERE id = :id";
 
-        $stmt = $db->prepare($sql);
-        return $stmt->execute(['id' => $rideId]);
+        try {
+            $db->beginTransaction();
+
+            // Récupérer les détails du trajet
+            $sqlRide = "SELECT prix, statut, conducteur_id FROM trajet WHERE id = :id FOR UPDATE";
+            $stmtRide = $db->prepare($sqlRide);
+            $stmtRide->execute(['id' => $rideId]);
+            $ride = $stmtRide->fetch();
+
+            if (!$ride) {
+                throw new Exception("Le trajet spécifié n'existe pas.");
+            }
+
+            $price = (float)$ride['prix'];
+
+            // Compter le nombre de passagers ayant réservé une place
+            $sqlCount = "SELECT COUNT(*) FROM reservation WHERE trajet_id = :ride_id";
+            $stmtCount = $db->prepare($sqlCount);
+            $stmtCount->execute(['ride_id' => $rideId]);
+            $passengerCount = (int)$stmtCount->fetchColumn();
+
+            // Mettre à jour le statut du trajet
+            $sqlClose = "UPDATE trajet SET statut = 'passif' WHERE id = :id";
+            $stmtClose = $db->prepare($sqlClose);
+            $stmtClose->execute(['id' => $rideId]);
+
+            // Calculer les gains totaux et créditer le compte du conducteur
+            $totalEarnings = $price * $passengerCount;
+            if ($totalEarnings > 0) {
+                $sqlCredit = "UPDATE utilisateur SET solde = solde + :earnings WHERE id = :driver_id";
+                $stmtCredit = $db->prepare($sqlCredit);
+                $stmtCredit->execute([
+                    'earnings'  => $totalEarnings,
+                    'driver_id' => $driverId
+                ]);
+            }
+
+            $db->commit();
+            return $totalEarnings;
+        } catch (Exception $e) {
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+            throw $e;
+        }
     }
 
     public static function readPassengersByRideId(int $rideId): array

@@ -31,12 +31,14 @@ class ReservationController
             $rideId = $_POST['ride_id'] ?? '';
 
             if ($rideId) {
-                $success = ReservationModel::insert((int)$rideId, $passengerId);
-                if ($success) {
+                try {
+                    $debitedPrice = ReservationModel::insert((int)$rideId, $passengerId);
+                    $_SESSION['balance'] -= $debitedPrice;
+
                     header('Location: index.php?controller=reservation&action=index');
                     exit();
-                } else {
-                    $errors[] = "Erreur lors de l'enregistrement de la réservation.";
+                } catch (Exception $e) {
+                    $errors[] = $e->getMessage();
                 }
             } else {
                 $errors[] = "Veuillez sélectionner un trajet valide.";

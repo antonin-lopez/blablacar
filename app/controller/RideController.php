@@ -64,7 +64,7 @@ class RideController
         require_once ROOT . '/app/view/ride/viewCreate.php';
     }
 
-    public static function activeRides($args = [])
+    public static function passengers($args = [])
     {
         if ($_SESSION['user_role'] !== 'conducteur') {
             header('Location: index.php?controller=home&action=home');
@@ -72,28 +72,47 @@ class RideController
         }
 
         $userId = $_SESSION['user_id'];
-        $viewMode = $_GET['view'] ?? 'passengers';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $rideId = $_POST['ride_id'] ?? null;
-
             if ($rideId !== null) {
-                if ($viewMode === 'close') {
-                    RideModel::closeRide($rideId);
+                $ride = RideModel::readById($rideId);
+                $passengers = RideModel::readPassengersByRideId($rideId);
+                require_once ROOT . '/app/view/ride/viewPassengers.php';
+                exit();
+            }
+        }
+
+        $rides = RideModel::readActiveByDriverId($userId);
+        require_once ROOT . '/app/view/ride/viewSelectPassengers.php';
+    }
+
+    public static function close($args = [])
+    {
+        if ($_SESSION['user_role'] !== 'conducteur') {
+            header('Location: index.php?controller=home&action=home');
+            exit();
+        }
+
+        $userId = $_SESSION['user_id'];
+        $errors = [];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $rideId = $_POST['ride_id'] ?? null;
+            if ($rideId !== null) {
+                try {
+                    $earnings = RideModel::closeRide((int)$rideId, $userId);
+                    $_SESSION['balance'] += $earnings;
+
                     header('Location: index.php?controller=ride&action=index');
                     exit();
-                } else {
-                    $ride = RideModel::readById($rideId);
-                    $passengers = RideModel::readPassengersByRideId($rideId);
-
-                    require_once ROOT . '/app/view/ride/viewPassengers.php';
-                    exit();
+                } catch (Exception $e) {
+                    $errors[] = $e->getMessage();
                 }
             }
         }
 
         $rides = RideModel::readActiveByDriverId($userId);
-
-        require_once ROOT . '/app/view/ride/viewSelectActive.php';
+        require_once ROOT . '/app/view/ride/viewSelectClose.php';
     }
 }

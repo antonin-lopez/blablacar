@@ -1,5 +1,3 @@
-<?php /** @var string $viewMode */ ?>
-
 <?php require ROOT . '/app/view/partials/header.html'; ?>
 
 <body class="d-flex flex-column min-vh-100">
@@ -17,37 +15,20 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($viewMode === 'close'): ?>
-            <h1>Clôturer un trajet</h1>
-        <?php else: ?>
-            <h1>Passagers de mes trajets</h1>
-        <?php endif; ?>
+        <h1>Clôturer un trajet</h1>
 
         <?php if (empty($rides)): ?>
             <div class="alert alert-warning">
-                <?php if ($viewMode === 'close'): ?>
-                    Vous n'avez aucun trajet actif à clôturer.
-                <?php else: ?>
-                    Vous n'avez aucun trajet actif pour le moment.
-                <?php endif; ?>
+                Vous n'avez aucun trajet actif à clôturer.
             </div>
-
         <?php else: ?>
-            <?php if ($viewMode === 'close'): ?>
-                <div class="alert alert-info">
-                    La clôture d'un trajet le rendra indisponible pour de nouvelles réservations.
-                </div>
-            <?php endif; ?>
+            <div class="alert alert-info">
+                La clôture d'un trajet le rendra indisponible pour de nouvelles réservations.
+            </div>
 
             <form method="POST" action="" class="row g-3">
                 <div class="col-md-12">
-                    <label for="ride_id" class="form-label">
-                        <?php if ($viewMode === 'close'): ?>
-                            Choisissez le trajet à clôturer
-                        <?php else: ?>
-                            Vos trajets actifs
-                        <?php endif; ?>
-                    </label>
+                    <label for="ride_id" class="form-label">Choisissez le trajet à clôturer</label>
 
                     <select class="form-select" id="ride_id" name="ride_id" required>
                         <option value="" disabled selected>-- Sélectionnez un trajet --</option>
@@ -67,18 +48,11 @@
                 </div>
 
                 <div class="col-md-12 mt-4 d-flex justify-content-end">
-                    <?php if ($viewMode === 'close'): ?>
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir clôturer ce trajet ? Cette action est irréversible.');">
-                            Clôturer le trajet
-                        </button>
-                    <?php else: ?>
-                        <button type="submit" class="btn btn-primary">
-                            Voir les passagers
-                        </button>
-                    <?php endif; ?>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir clôturer ce trajet ? Cette action est irréversible.');">
+                        Clôturer le trajet
+                    </button>
                 </div>
             </form>
-
         <?php endif; ?>
     </main>
 

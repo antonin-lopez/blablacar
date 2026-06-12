@@ -60,4 +60,21 @@ class UserModel
             'solde'    => $balance
         ]);
     }
+
+    public static function getBalance(int $userId): float
+    {
+        $db = Model::getInstance();
+        $sql = "SELECT solde FROM utilisateur WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['id' => $userId]);
+        return (float)$stmt->fetchColumn();
+    }
+
+    public static function updateBalance(int $userId, float $amount): bool
+    {
+        $db = Model::getInstance();
+        $sql = "UPDATE utilisateur SET solde = solde + :amount WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        return $stmt->execute(['amount' => $amount, 'id' => $userId]);
+    }
 }
