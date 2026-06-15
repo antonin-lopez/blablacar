@@ -61,7 +61,7 @@ class ReservationModel
             }
             $balance = (float)$balance;
 
-            // Vérification stricte du solde disponible
+            // Vérification du solde disponible
             if ($balance < $price) {
                 throw new Exception("Solde insuffisant pour réserver ce trajet.");
             }
